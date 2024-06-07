@@ -119,7 +119,6 @@ def monitorResolutions():
 		try:
 			gv.monitorsWidth = gv.root.winfo_screenwidth()
 			gv.monitorsHeight = gv.root.winfo_screenheight()
-			print('DEBUG in AU: Max window size ' + str(gv.monitorsWidth) + "x" + str(gv.monitorsHeight) + ' (Only shows active screen on Windowe).')
 # This method pulled in a dependency and seems a bit unneccesary
 # since we can get the info on Linux by pinging the window.
 # I've left it in comments to allow for the unseen.
