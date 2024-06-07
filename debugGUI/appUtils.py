@@ -131,27 +131,36 @@ def monitorResolutions():
 #			gv.monitorsHeight = resolution.height
 			return
 		except:
-			proc = None
-			try:
-				if "xrandr" in os.environ['PATH']:
-					args = ["xrandr", "-q", "-d", ":0"]
-					proc = subprocess.Popen(args, stdout=subprocess.PIPE)
-					# Screen 0: minimum 320 x 200, current 1920 x 1080, maximum 1920 x 1920
-					for line in iter(proc.stdout.readline, ''):
-						if isinstance(line, bytes):
-							line = line.decode("utf-8")
-						if "Screen" in line:
-							match = re.search(r'current\s(\d+) x (\d+)', line)
-							if match:
-								gv.monitorsWidth =int(match.group(1))
-								gv.monitorsHeight = int(match.group(2))
-								return
-							break
-			except:
-				pass
-			finally:
-				if proc:
-					proc.stdout.close()
+#Flibble: This block using xrandr is not safe as it assumes DISPLAY=:0.
+# If we end up here, we need a better workaround.
+# We shouldn't get to here anyway.
+# Replaced with a warning of some sort.
+			print("This should not happen. Something is wrong with detecting window size")
+			return
+#		except:
+#			proc = None
+#			try:
+#				if "xrandr" in os.environ['PATH']:
+#					args = ["xrandr", "-q", "-d", ":0"]
+#					proc = subprocess.Popen(args, stdout=subprocess.PIPE)
+#					# Screen 0: minimum 320 x 200, current 1920 x 1080, maximum 1920 x 1920
+#					for line in iter(proc.stdout.readline, ''):
+#						if isinstance(line, bytes):
+#							line = line.decode("utf-8")
+#						if "Screen" in line:
+#							match = re.search(r'current\s(\d+) x (\d+)', line)
+#							if match:
+#								gv.monitorsWidth =int(match.group(1))
+#								gv.monitorsHeight = int(match.group(2))
+#								return
+#							break
+#			except:
+#				pass
+#			finally:
+#				if proc:
+#					proc.stdout.close()
+# end of xrandr block
+
 	elif con.IS_MACOS_PC:
 		import AppKit
 		try:
