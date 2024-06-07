@@ -223,9 +223,6 @@ class AppWindow(ttk.Frame):
 	# noinspection PyBroadException
 	def __init__(self):
 		top = gv.root = tk.Tk(className='Oodebug')
-		gv.monitorsWidth = top.winfo_screenwidth()
-		gv.monitorsHeight = top.winfo_screenheight()
-		print('DEBUG: Max window size ' + str(gv.monitorsWidth) + "x" + str(gv.monitorsHeight) + ' (Across all connected monitors).')
 		top.withdraw() #flibble: this and the update seem to effectively hide the window
 		top.update()   #  during construction.
 		top.minsize(con.MINIMUM_WIDTH, con.MINIMUM_HEIGHT)
@@ -299,8 +296,7 @@ class AppWindow(ttk.Frame):
 		gv.root.attributes('-alpha', 0.0)	# turn off while building
 #		gv.root.update_idletasks()
 		gv.root.update()
-#		au.monitorResolutions() # Flibble removing this to try simpler method
-
+		au.monitorResolutions()
 		# upper Frame
 		gv.menubar.rowconfigure(0, weight=1)
 		# for alias menu button frame, which is gridded into column 2

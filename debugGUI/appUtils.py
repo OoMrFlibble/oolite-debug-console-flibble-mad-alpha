@@ -117,10 +117,18 @@ def monitorResolutions():
 		return
 	elif con.IS_LINUX_PC:
 		try:
-			import Xlib.display
-			resolution = Xlib.display.Display().screen().root.get_geometry()
-			gv.monitorsWidth = resolution.width
-			gv.monitorsHeight = resolution.height
+			gv.monitorsWidth = gv.root.winfo_screenwidth()
+			gv.monitorsHeight = gv.root.winfo_screenheight()
+			print('DEBUG in AU: Max window size ' + str(gv.monitorsWidth) + "x" + str(gv.monitorsHeight) + ' (Only shows active screen on Windowe).')
+# This method pulled in a dependency and seems a bit unneccesary
+# since we can get the info on Linux by pinging the window.
+# I've left it in comments to allow for the unseen.
+# If we revert to it we'll need to add a dep of apt install python3-xlib
+# ..or whatever per distro.
+#			import Xlib.display
+#			resolution = Xlib.display.Display().screen().root.get_geometry()
+#			gv.monitorsWidth = resolution.width
+#			gv.monitorsHeight = resolution.height
 			return
 		except:
 			proc = None
