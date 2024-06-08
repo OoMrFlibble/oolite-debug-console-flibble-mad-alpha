@@ -153,6 +153,7 @@ jobs:
     - name: Build using pyinstaller
       run: |
         pyinstaller \
+        --target-architecture universal2 \
         --onefile \
         --add-binary "oojsc.xbm:." \
         --add-binary "OoJSC.ico:." \
