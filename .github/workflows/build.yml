@@ -1,9 +1,9 @@
 # This workflow will build a python project with pyinstaller
 
-name: build
+name: Build
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
 
 jobs:
   semver:
