@@ -1,7 +1,4 @@
-# This workflow will build a python project with pyinstaller
-
 name: Build
-
 on:
   workflow_dispatch:
 
