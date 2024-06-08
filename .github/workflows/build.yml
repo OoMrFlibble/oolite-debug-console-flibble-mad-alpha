@@ -50,7 +50,8 @@ jobs:
           echo "MACOS_MAJORMINORPATCH=${GitVersion_MajorMinorPatch}" >> "$GITHUB_OUTPUT"
         fi
 
-  package-linux-x86_64:
+
+package-linux-x86_64:
     needs: [semver]
     runs-on: ubuntu-latest
 
@@ -209,7 +210,7 @@ jobs:
         path: ./Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos-arm64.tgz
 
   release:
-    needs: [semver,package-linux,package-windows,package-macos-arm64,package-macos-x86_64]
+    needs: [semver,package-linux-x86_64,package-windows,package-macos-arm64,package-macos-x86_64]
     runs-on: ubuntu-latest
 
     steps:
