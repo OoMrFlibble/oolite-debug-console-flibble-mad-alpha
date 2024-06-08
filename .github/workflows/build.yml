@@ -50,7 +50,7 @@ jobs:
           echo "MACOS_MAJORMINORPATCH=${GitVersion_MajorMinorPatch}" >> "$GITHUB_OUTPUT"
         fi
 
-  package-linux:
+  package-linux-x86_64:
     needs: [semver]
     runs-on: ubuntu-latest
 
@@ -153,7 +153,6 @@ jobs:
     - name: Build using pyinstaller
       run: |
         pyinstaller \
-        --target-architecture \
         --onefile \
         --log-level=WARN \
         --add-binary "oojsc.xbm:." \
@@ -192,7 +191,6 @@ jobs:
     - name: Build using pyinstaller
       run: |
         pyinstaller \
-        --target-architecture \
         --onefile \
         --log-level=WARN \
         --add-binary "oojsc.xbm:." \
