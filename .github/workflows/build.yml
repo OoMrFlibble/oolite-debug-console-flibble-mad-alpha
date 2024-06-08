@@ -48,7 +48,7 @@ jobs:
         fi
 
 
-package-linux-x86_64:
+  package-linux-x86_64:
     needs: [semver]
     runs-on: ubuntu-latest
 
