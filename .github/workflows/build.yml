@@ -27,11 +27,11 @@ jobs:
       uses: gittools/actions/gitversion/setup@v0
       with:
         versionSpec: '5.x'
-      
+
     - name: Determine Version
       id: gitversion
       uses: gittools/actions/gitversion/execute@v0
-      
+
     - id: output1
       run: |
         set -x
@@ -65,24 +65,24 @@ jobs:
         cd builder
         cd Linux
         ./make.sh debdeps
-        ./make.sh onedir Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-installable /tmp
+        ./make.sh onedir Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable /tmp
         ./make.sh clean
-        ./make.sh onefile Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-installable /tmp
+        ./make.sh onefile Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable /tmp
 
 # For some reason this will not work in workflows. The onefile version ends up unable to function due to libraries missing.
 # It works fine on the bench.
-#        ./make.sh dist Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-installable /tmp
+#        ./make.sh dist Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable /tmp
 
     - uses: actions/upload-artifact@v4
       with:
-        name: Oolite-Debug-Console-Linux-Installable-onedir
-        path: /tmp/Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-installable-onedir.tgz
+        name: Oolite-Debug-Console-Linux-x86_64-Installable-onedir
+        path: /tmp/Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable-onedir.tgz
 
     - uses: actions/upload-artifact@v4
       with:
-        name: Oolite-Debug-Console-Linux-Installable-onefile
-        path: /tmp/Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-installable-onefile.tgz
-  
+        name: Oolite-Debug-Console-Linux-x86_64-Installable-onefile
+        path: /tmp/Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-x86_64-linux-installable-onefile.tgz
+
 
   package-windows:
     needs: [semver]
@@ -133,20 +133,15 @@ jobs:
         name: Oolite-Debug-Console-Windows
         path: Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-win.zip
 
-  package-macos:
+  package-macos-x86_64:
     needs: [semver]
-    runs-on: macos-latest
+    runs-on: macos-latest-large
 
     steps:
     - name: Checkout project
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-
-    - name: Setup python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
 
     - name: Install pyinstaller
       run: |
@@ -158,8 +153,9 @@ jobs:
     - name: Build using pyinstaller
       run: |
         pyinstaller \
-        --target-architecture universal2 \
+        --target-architecture \
         --onefile \
+        --log-level=WARN \
         --add-binary "oojsc.xbm:." \
         --add-binary "OoJSC.ico:." \
         --name OoDC \
@@ -168,15 +164,54 @@ jobs:
 
     - name: create archive
       run: |
-        tar cvfz Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos.tgz dist/
+        tar cvfz Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos-x86_64.tgz dist/
 
     - uses: actions/upload-artifact@v4
       with:
-        name: Oolite-Debug-Console-MacOs
-        path: ./Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos.tgz
+        name: Oolite-Debug-Console-MacOs-x86_64
+        path: ./Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos-x86_64.tgz
+
+
+  package-macos-arm64:
+    needs: [semver]
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Install pyinstaller
+      run: |
+        pip install -U pyinstaller
+        pip install -U twisted
+        pip install -U pillow
+        pip install -U click
+
+    - name: Build using pyinstaller
+      run: |
+        pyinstaller \
+        --target-architecture \
+        --onefile \
+        --log-level=WARN \
+        --add-binary "oojsc.xbm:." \
+        --add-binary "OoJSC.ico:." \
+        --name OoDC \
+        --icon OoJSC.ico \
+        OoDC.py
+
+    - name: create archive
+      run: |
+        tar cvfz Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos-arm64.tgz dist/
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Oolite-Debug-Console-MacOs-arm64
+        path: ./Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos-arm64.tgz
 
   release:
-    needs: [semver,package-linux,package-windows,package-macos]
+    needs: [semver,package-linux,package-windows,package-macos-arm64,package-macos-x86_64]
     runs-on: ubuntu-latest
 
     steps:
@@ -214,11 +249,12 @@ jobs:
         prerelease: true
         title: "Debug Console v${{ needs.semver.outputs.GITVERSION_SEMVER }}"
         files: |
-          artifacts/Oolite-Debug-Console-Linux-Installable-onedir/*.tgz
-          artifacts/Oolite-Debug-Console-Linux-Installable-onefile/*.tgz
+          artifacts/Oolite-Debug-Console-Linux-x86_64-Installable-onedir/*.tgz
+          artifacts/Oolite-Debug-Console-Linux-x86_64-Installable-onefile/*.tgz
           artifacts/Oolite-Debug-Console-Windows/*.zip
-          artifacts/Oolite-Debug-Console-MacOs/*.tgz
-      
+          artifacts/Oolite-Debug-Console-MacOs-x86_64/*.tgz
+          artifacts/Oolite-Debug-Console-MacOs-arm64/*.tgz
+
     - name: Remove old releases
       if: github.ref == 'refs/heads/main'
       uses: dev-drprasad/delete-older-releases@v0.3.2
@@ -230,7 +266,7 @@ jobs:
         #delete_branch: 'main'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
+
     - name: Create Release
       if: github.ref == 'refs/heads/main'
       id: create_release
@@ -241,8 +277,9 @@ jobs:
         prerelease: true
         title: "Debug Console v${{ needs.semver.outputs.GITVERSION_SEMVER }}"
         files: |
-          artifacts/Oolite-Debug-Console-Linux-Installable-onedir/*.tgz
-          artifacts/Oolite-Debug-Console-Linux-Installable-onefile/*.tgz
+          artifacts/Oolite-Debug-Console-Linux-x86_64-Installable-onedir/*.tgz
+          artifacts/Oolite-Debug-Console-Linux-x86_64-Installable-onefile/*.tgz
           artifacts/Oolite-Debug-Console-Windows/*.zip
-          artifacts/Oolite-Debug-Console-MacOs/*.tgz
+          artifacts/Oolite-Debug-Console-MacOs-x86_64/*.tgz
+          artifacts/Oolite-Debug-Console-MacOs-arm64/*.tgz
 
