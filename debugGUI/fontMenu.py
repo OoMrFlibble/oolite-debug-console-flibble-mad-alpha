@@ -1,6 +1,7 @@
 #
 # (c) 2021 cag CC BY-NC-SA 4.0
 #
+
 import tkinter as tk
 import tkinter.font as tkFont
 import debugGUI.aliases as al
@@ -64,14 +65,14 @@ def makeFonts():
 	gv.Alias.registerFonts(default, disabled)
 
 _fontTkVars = {}	# dict of tkinter vars for fonts
-def createFontMenus(): 				
+def createFontMenus():
 	# create a Font pull down menu
 	font = gv.OoFonts['default']
 	options = gv.CurrentOptions['Font']
 	fontMenu = wg.OoBarMenu(gv.menuFrame, label='Font',
-							font=font, name=mu.TkName('fontMenu'),
-							style='OoBarMenu.TMenubutton', 
-							postcommand=au.closeAnyOpenFrames)
+					font=font, name=mu.TkName('fontMenu'),
+					style='OoBarMenu.TMenubutton', 
+					postcommand=au.closeAnyOpenFrames)
 	gv.fontMenu = fontMenu
 	gv.debugConsoleMenus.append(fontMenu)
 
@@ -82,7 +83,7 @@ def createFontMenus():
 
 	# create font size submenu
 	_fontTkVars['font-size'] = tk.IntVar(value=options['Size'], 
-										name=mu.TkName('fontSize'))
+							name=mu.TkName('fontSize'))
 	fsizeMenu = tk.Menu(fontMenu, tearoff=0, name=mu.TkName('sizeMenu'))
 	for size in range(con.MIN_FONT_SIZE, con.MAX_FONT_SIZE + 1):
 		fsizeMenu.add_radiobutton(label=str(size), 
@@ -96,7 +97,7 @@ def createFontMenus():
 
 	# create font weight submenu
 	_fontTkVars['Weight'] = tk.StringVar(value=options['Weight'], 
-										name=mu.TkName('fontWeight'))
+							name=mu.TkName('fontWeight'))
 	weightMenu = tk.Menu(fontMenu, tearoff=0, 
 						name=mu.TkName('weightMenu'))
 	weightMenu.add_radiobutton(label='Normal', 
@@ -147,7 +148,7 @@ _fontList = []		# contents of the font select ListBox
 def isAvailableFont(font):
 	return font in _fontList
 
-def _createFontSelectBox(): 			
+def _createFontSelectBox():
 	# mk list of fonts, load into ListBox
 	families = tkFont.families()
 	for item in families:
@@ -178,7 +179,7 @@ def _createFontSelectBox():
 	fontBox.bind('<Return>', _fontSelected)
 	fontBox.bind('<Double-ButtonRelease-1>', _fontSelected)
 
-def _selectFont():						
+def _selectFont():
 	# open font selection box, set current font to inverse color
 	if gv.appearance.usingOoColors():
 		currFont = gv.OoSettings.get('font-face', 'Arial')
@@ -195,7 +196,7 @@ def _selectFont():
 	fontBox, fontSelect = gv.fontSelectListBox, gv.fontSelect
 	fontBox.delete(0, 'end')	# undo color inversion
 	fontBox.insert('end', *_fontList)
-	if select is not None:				
+	if select is not None:
 		# invert color of currently active font
 		fg, bg = gv.appearance.getCurrentFgBg()
 		fontBox.itemconfig(select, foreground=bg, background=fg)
@@ -297,7 +298,7 @@ def _setFontDisabled():
 	gv.OoFonts['disabled'].config(overstrike=0 \
 						if disabled == 'normal' else 1)
 
-def _updateAppsFontChange():			
+def _updateAppsFontChange():
 	# update cmdLine buttons, sash, menus after a font size change
 
 	# recompute length of special characters (must do before update_idletasks
@@ -324,5 +325,3 @@ def _updateAppsFontChange():
 	settings = gv.CurrentOptions['Settings']
 	if settings.get('ResetCmdSizeOnRun', False):
 		au.positionAppSash()
-
-

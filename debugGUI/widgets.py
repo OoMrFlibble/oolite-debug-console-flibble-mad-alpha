@@ -21,7 +21,7 @@ class TopWindow(tk.Toplevel):
 		self.transient(master)
 		self.setTitle(title)
 		self.enduring = enduring
-		if enduring: 					
+		if enduring:
 			# override the 'X' from destroying window
 			self.protocol('WM_DELETE_WINDOW', self.closeTop)
 		self.resizable(width=False, height=False)
@@ -35,10 +35,10 @@ class TopWindow(tk.Toplevel):
 
 	def savePosition(self):
 		_, _, Xoff, Yoff = mu.parseGeometry(self)
-		if Xoff == 0 and Yoff == 0:	
+		if Xoff == 0 and Yoff == 0:
 			# newly minted widget, ie. never mapped
 			# don't clobber any existing saved values
-			return					
+			return
 		self.mouseXY = [Xoff, Yoff]
 
 	def center(self):
@@ -74,7 +74,7 @@ class TopWindow(tk.Toplevel):
 		self.deiconify()
 		# lift required in pyinstaller version else 
 		# fontSelectTop won't show (anywhere!)
-		self.lift()						
+		self.lift()
 		self.focus_set()
 
 	# noinspection PyUnusedLocal

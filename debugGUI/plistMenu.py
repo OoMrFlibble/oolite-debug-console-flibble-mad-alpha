@@ -130,7 +130,7 @@ def initClientSettings(settings):
 	gv.initStartTime = mu.timeCount()
 	# gameStarted is Traced, .set upon fn exit will
 	#   initiate _checkGameStatus loop
-	gv.gameStarted.set(0)				
+	gv.gameStarted.set(0)
 
 def _sortSettings(key):		# important for menu order and color calc
 	if key.startswith('font'):
@@ -145,7 +145,7 @@ def _sortSettings(key):		# important for menu order and color calc
 		rank = 5
 	return f'{rank}{key}'
 
-def disableClientSettings():			
+def disableClientSettings():
 	# disables debugMenu but destroys ooliteMenu as it is connection specific
 	if not gv.connectedToOolite:
 		# can be called more than once (oolite closed vs halted)

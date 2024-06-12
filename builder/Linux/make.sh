@@ -36,6 +36,8 @@ onefilebase="install-tree-onefile"
 onedirbase="install-tree-onedir"
 
 prep(){
+  mkdir -p "$builddir" || q "Can't create $builddir."
+  cd "$builddir" || q "Can't cd to builddir $builddir"
   step="setting up venv and building tools"
   python3 -m venv "$venv" &&
   source "$venv"/bin/activate &&
@@ -82,11 +84,11 @@ onefile(){
 step="making onefile executable"
 # This will MOVE the executable to 'here' getting it out of the way for onedir.
 echo "$step"
-mkdir -p "$builddir" || q "Can't create $builddir."
-cd "$builddir" || q "Can't cd to builddir $builddir"
+#mkdir -p "$builddir" || q "Can't create $builddir."
+#cd "$builddir" || q "Can't cd to builddir $builddir"
 mkdir -p "$onefilebase" || q "couldn't make directory $onefilebase"
 cd $onefilebase && commonparts && cd - || q "commonparts fail"
-prep &&
+#prep &&
 pyinstaller --name "$basename" --onefile "${relpath}$inscript" \
  --add-binary "${relpath}oojsc.xbm:." --add-binary "${relpath}OoJSC.ico:." \
  --add-binary "${relpath}OoJSC256x256.png:." &&
@@ -120,11 +122,11 @@ step="making onedir executable"
 #Moves the result dir into the target lib.
 #No deref in tar.
 echo "$step"
-mkdir -p "$builddir" || q "Can't create $builddir."
-cd "$builddir" || q "Can't cd to builddir $builddir"
+#mkdir -p "$builddir" || q "Can't create $builddir."
+#cd "$builddir" || q "Can't cd to builddir $builddir"
 mkdir -p "$onedirbase/lib" || q "couldn't make directory $onefilebase"
 cd $onedirbase && commonparts && cd - || q "commonparts fail"
-prep &&
+#prep &&
 pyinstaller --name "$basename" --onedir "${relpath}$inscript" \
  --add-binary "${relpath}oojsc.xbm:." --add-binary "${relpath}OoJSC.ico:." \
  --add-binary "${relpath}OoJSC256x256.png:." &&
@@ -157,11 +159,11 @@ If it's installed user-local, that install will (for that user) take priority ov
 #Arg 1 chooses action. Empty builds onedir tarball. 'onefile' makes as onefile.
 case "$1" in
     debdeps) debdeps ;; # install dependencies
-    clean) cleaner ;; # remove build directory
-    onefile) setupvars && onefile ;;
-    dist) cleaner && setupvars && onedir rm -Rf build/build && setupvars && onefile ;;
+    clean) cleaner ;; # remove entire build directory
+    onefile) setupvars && prep && onefile ;;
+    dist) cleaner && setupvars && prep && onedir && rm -Rf build/build && onefile ;;
     desktop) echo "$desktop" ;;
-    onedir) setupvars && onedir ;;
+    onedir) setupvars && prep && onedir ;;
     *) q "Setup: Invalid arg 1: [debdeps|onefile|onedir|clean|dist]" ;;
 esac
 

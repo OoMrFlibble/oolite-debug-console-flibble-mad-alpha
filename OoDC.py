@@ -1,4 +1,4 @@
-#!/bin/env python3
+#!/bin/env -S python3 -B
 #
 #  DebugConsole.py
 #  pythonDebugConsole
@@ -29,7 +29,6 @@ import sys, os, time, logging, errno, gc
 
 #As we have parsed the command line, and dragged in constants, we know the OS
 # and if not frozen, knowing the path will allow us to find our icons.
-#from pathlib import Path
 if not con.FROZEN:
 	#Get script path (dereferenced in case symlink).
 	con.SCRIPTPATH = os.path.dirname(os.path.realpath(__file__))
@@ -220,16 +219,21 @@ class AppWindow(ttk.Frame):
 	aliases = None
 
 ## disabled override of Tk exception handling (needs work)
-	# noinspection PyBroadException
+	#noinspection PyBroadException
 	def __init__(self):
 		top = gv.root = tk.Tk(className='Oodebug')
-		top.withdraw() #flibble: this and the update seem to effectively hide the window
-		top.update()   #  during construction.
+		if con.IS_MACOS_PC:
+			top.attributes('-alpha', 0.0)	# turn off while building
+		else:
+			#On MacOS, doing this was causing the font dialogue to appear ALWAYS.
+			top.withdraw() #This and the update seem to
+					# effectively hide the window during construction.
+		top.update()
 		top.minsize(con.MINIMUM_WIDTH, con.MINIMUM_HEIGHT)
 		top.resizable(width=True, height=True)
 		top.title(con.DEBUGGER_TITLE)
-#cagfix		top.protocol("WM_DELETE_WINDOW", self.exitCmd)
-		top.protocol("::tk::mac::Quit" if con.IS_MACOS_PC else "WM_DELETE_WINDOW", self.exitCmd)
+		top.protocol("WM_DELETE_WINDOW", self.exitCmd)
+#		top.protocol("::tk::mac::Quit" if con.IS_MACOS_PC else "WM_DELETE_WINDOW", self.exitCmd) #cag fix
 #		top.bind('<FocusIn>', au.liftMainWindow) #Flibble. This stopped alt-tab switching from behaving.
 		# app has 2 frames stacked vertically
 		# for the menubar and the PanedWindow
@@ -295,8 +299,8 @@ class AppWindow(ttk.Frame):
 
 	def setupApp(self):
 		gv.root.attributes('-alpha', 0.0)	# turn off while building
-#		gv.root.update_idletasks()
-		gv.root.update()
+#		gv.root.update_idletasks() #FLIBBLE SWAPPED update to update_idletasks 20240612, found it wasn't needed!
+#		gv.root.update()
 		au.monitorResolutions()
 		# upper Frame
 		gv.menubar.rowconfigure(0, weight=1)
@@ -1233,7 +1237,7 @@ class AppWindow(ttk.Frame):
 		if gv.CurrentOptions['Settings'].get('SaveHistoryOnExit', True):
 			ch.saveCmdHistory()
 		pm.sessionCleanup(abort=True)
-		gv.app.update() # flush any pending after_idle's
+#FLIBBLE : MAC WON'T PASS THIS		gv.app.update() # flush any pending after_idle's
 		tksupport.uninstall()
 		reactor.stop()
 		gv.root.destroy()
