@@ -63,9 +63,9 @@ jobs:
         cd builder
         cd Linux
         ./make.sh debdeps
-        ./make.sh onedir Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable /tmp
-        ./make.sh clean
-        ./make.sh onefile Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable /tmp
+        ./make.sh dist Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable /tmp
+#        ./make.sh clean
+#        ./make.sh onefile Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable /tmp
 
 # For some reason this will not work in workflows. The onefile version ends up unable to function due to libraries missing.
 # It works fine on the bench.
