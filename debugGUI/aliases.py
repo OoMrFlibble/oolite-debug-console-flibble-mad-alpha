@@ -2191,15 +2191,20 @@ def gridMenuButtons():					# arrange alias buttons in menubar
 # gridMenuButtons is called in fontMenu & plistMenu
 gv.gridMenuButtons = gridMenuButtons
 
-def setAllMenuButtons():				# initialize all saved menubar buttons when setupApp
+def setAllMenuButtons():
+	# initialize all saved menubar buttons when setupApp
 	_callStack()	## callStack
 	inMenu = [alias for alias, obj in gv.aliases.items() if obj.inMenu]
+	if len(inMenu) == 0:
+		_setAliasToMenuButton()
+		gv.root.update_idletasks()
+		return
 	for alias in inMenu:
 		_makeAliasMenuButton(alias)
 	gridMenuButtons()
 	alias = _fetchAliasName()
 	_setAliasToMenuButton(alias if len(alias) > 0 else None)
-	gv.root.update()
+#    gv.root.update()
 
 ## alias error handling #######################################################
 

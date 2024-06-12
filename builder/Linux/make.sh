@@ -24,6 +24,7 @@ basedir="$(dirname $(realpath $0))"
 cd "$basedir" || q "Can't cd to $basedir"
 
 
+
 builddirname=build
 builddir="$basedir/$builddirname" # this can be deleted to retry a build
 basename=OoDC # gets used a lot

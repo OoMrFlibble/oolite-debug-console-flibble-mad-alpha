@@ -115,7 +115,8 @@ def monitorResolutions():
 		gv.monitorsWidth = user32.GetSystemMetrics(78)
 		gv.monitorsHeight = user32.GetSystemMetrics(79)
 		return
-	elif con.IS_LINUX_PC:
+#	elif con.IS_LINUX_PC:
+	else: #Kludging for both MacOS and Linux, partly to skirt around MacOS dep on AppKit which doesn't build well now.
 		try:
 			gv.monitorsWidth = gv.root.winfo_screenwidth()
 			gv.monitorsHeight = gv.root.winfo_screenheight()
@@ -159,18 +160,17 @@ def monitorResolutions():
 #				if proc:
 #					proc.stdout.close()
 # end of xrandr block
-
-	elif con.IS_MACOS_PC:
-		import AppKit
-		try:
-			width = height = 0
-			for screen in AppKit.NSScreen.screens():
-				width += screen.frame().size.width
-				height += screen.frame().size.height
-			gv.monitorsWidth, gv.monitorsHeight = width, height
-			return
-		except:
-			pass
+#	elif con.IS_MACOS_PC:
+#		import AppKit
+#		try:
+#			width = height = 0
+#			for screen in AppKit.NSScreen.screens():
+#				width += screen.frame().size.width
+#				height += screen.frame().size.height
+#			gv.monitorsWidth, gv.monitorsHeight = width, height
+#			return
+#		except:
+#			pass
 
 	gv.root.state('iconic')
 	gv.root.update_idletasks()

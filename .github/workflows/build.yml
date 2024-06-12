@@ -131,84 +131,47 @@ jobs:
         name: Oolite-Debug-Console-Windows
         path: Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-win.zip
 
-#  package-macos-x86_64:
-#    needs: [semver]
-#    runs-on: macos-latest-large
-#
-#    steps:
-#    - name: Checkout project
-#      uses: actions/checkout@v4
-#      with:
-#        fetch-depth: 0
-#
-#    - name: Install pyinstaller
-#      run: |
-#        pip install -U pyinstaller
-#        pip install -U twisted
-#        pip install -U pillow
-#        pip install -U click
-#
-#    - name: Build using pyinstaller
-#      run: |
-#        pyinstaller \
-#        --onefile \
-#        --log-level=WARN \
-#        --add-binary "oojsc.xbm:." \
-#        --add-binary "OoJSC.ico:." \
-#        --name OoDC \
-#        --icon OoJSC.ico \
-#        OoDC.py
-#
-#    - name: create archive
-#      run: |
-#        tar cvfz Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos-x86_64.tgz dist/
-#
-#    - uses: actions/upload-artifact@v4
-#      with:
-#        name: Oolite-Debug-Console-MacOs-x86_64
-#        path: ./Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos-x86_64.tgz
 
+  package-macos-arm64:
+    needs: [semver]
+    runs-on: macos-latest
 
-#  package-macos-arm64:
-#    needs: [semver]
-#    runs-on: macos-latest
-#
-#    steps:
-#    - name: Checkout project
-#      uses: actions/checkout@v4
-#      with:
-#        fetch-depth: 0
-#
-#    - name: Install pyinstaller
-#      run: |
-#        pip install -U pyinstaller
-#        pip install -U twisted
-#        pip install -U pillow
-#        pip install -U click
-#
-#    - name: Build using pyinstaller
-#      run: |
-#        pyinstaller \
-#        --onefile \
-#        --log-level=WARN \
-#        --add-binary "oojsc.xbm:." \
-#        --add-binary "OoJSC.ico:." \
-#        --name OoDC \
-#        --icon OoJSC.ico \
-#        OoDC.py
-#
-#    - name: create archive
-#      run: |
-#        tar cvfz Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos-arm64.tgz dist/
-#
-#    - uses: actions/upload-artifact@v4
-#      with:
-#        name: Oolite-Debug-Console-MacOs-arm64
-#        path: ./Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos-arm64.tgz
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Install pyinstaller
+      run: |
+        pip install -U pyinstaller
+        pip install -U twisted
+        pip install -U pillow
+        pip install -U click
+
+    - name: Build using pyinstaller
+      run: |
+        pyinstaller \
+        --onefile \
+        --log-level=WARN \
+        --add-binary "oojsc.xbm:." \
+        --add-binary "OoJSC.ico:." \
+        --name OoDC \
+        --icon OoJSC.ico \
+        OoDC.py
+
+    - name: create archive
+      run: |
+        tar cvfz Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos-arm64.tgz dist/
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Oolite-Debug-Console-MacOs-arm64
+        path: ./Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos-arm64.tgz
 
   release:
-#    needs: [semver,package-linux-x86_64,package-windows,package-macos-arm64,package-macos-x86_64]
-    needs: [semver,package-linux-x86_64,package-windows]
+    needs: [semver,package-linux-x86_64,package-windows,package-macos-arm64]
+#    needs: [semver,package-linux-x86_64,package-windows]
     runs-on: ubuntu-latest
 
     steps:

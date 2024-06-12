@@ -228,12 +228,13 @@ class AppWindow(ttk.Frame):
 		top.minsize(con.MINIMUM_WIDTH, con.MINIMUM_HEIGHT)
 		top.resizable(width=True, height=True)
 		top.title(con.DEBUGGER_TITLE)
-		top.protocol("WM_DELETE_WINDOW", self.exitCmd)
+#cagfix		top.protocol("WM_DELETE_WINDOW", self.exitCmd)
+		top.protocol("::tk::mac::Quit" if con.IS_MACOS_PC else "WM_DELETE_WINDOW", self.exitCmd)
 #		top.bind('<FocusIn>', au.liftMainWindow) #Flibble. This stopped alt-tab switching from behaving.
 		# app has 2 frames stacked vertically
 		# for the menubar and the PanedWindow
 		# left justify the frames
-		top.columnconfigure(0, weight=1)	
+		top.columnconfigure(0, weight=1)
 		# PanedWindow, not menubar, stretches vertically
 		top.rowconfigure(1, weight=1)
 
