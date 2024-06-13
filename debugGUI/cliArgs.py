@@ -105,10 +105,10 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help', '-?'])
   str(g['stderr'])), is_flag=True) #seems to like file OR dir.
 
 def cli(base,cpath,lpath,cext,lext,hext,stderr):
-  """Oolite Debug Console : OoDC (Oodyssey)
+  """OoDC (Oodyssey) : the Oolite Debug Console
   \b
   Config files and logs will be stored in a location.
-  Let's see if we can make that location more predictable.
+  Let's make that location more predictable.
 
   Exits on help/version/error.
   """
@@ -187,6 +187,7 @@ def isDir(thisdir,key):
       + ' for option --' + key + '. Attempting to create it.')
     try:
       os.makedirs(thisdir, exist_ok = True)
+      g[key] = thisdir
       print("Directory " , thisdir ,  " Created ")
     except:
       raise click.BadParameter( (

@@ -226,9 +226,9 @@ class AppWindow(ttk.Frame):
 			top.attributes('-alpha', 0.0)	# turn off while building
 		else:
 			#On MacOS, doing this was causing the font dialogue to appear ALWAYS.
-			top.withdraw() #This and the update seem to
-					# effectively hide the window during construction.
-		top.update()
+			top.withdraw() #This and the update seem to effectively hide the window
+
+		top.update()   #  during construction.
 		top.minsize(con.MINIMUM_WIDTH, con.MINIMUM_HEIGHT)
 		top.resizable(width=True, height=True)
 		top.title(con.DEBUGGER_TITLE)
@@ -1230,14 +1230,32 @@ class AppWindow(ttk.Frame):
 				self.tried +=1
 		return 'break'
 
-	@staticmethod
-	def exitCmd():
+#	@staticmethod
+#	def exitCmd():
+#		au.closeAnyOpenFrames()
+#		cfg.writeCfgFile()
+#		if gv.CurrentOptions['Settings'].get('SaveHistoryOnExit', True):
+#			ch.saveCmdHistory()
+#		pm.sessionCleanup(abort=True)
+#FLIBBLE : MAC WON'T PASS THIS		gv.app.update() # flush any pending after_idle's
+#		tksupport.uninstall()
+#		reactor.stop()
+#		gv.root.destroy()
+#		gv.app = gv.root = None
+#Function split to work around Mac crash/segfault.
+
+	# @staticmethod
+	def exitCmd(self):
 		au.closeAnyOpenFrames()
 		cfg.writeCfgFile()
 		if gv.CurrentOptions['Settings'].get('SaveHistoryOnExit', True):
 			ch.saveCmdHistory()
 		pm.sessionCleanup(abort=True)
-#FLIBBLE : MAC WON'T PASS THIS		gv.app.update() # flush any pending after_idle's
+		gv.root.after(50, self.finishExit) # flush any pending after_idle's
+		# 1st arg is milliseconds
+		
+	@staticmethod
+	def finishExit():
 		tksupport.uninstall()
 		reactor.stop()
 		gv.root.destroy()
