@@ -60,6 +60,7 @@ jobs:
 
     - name: make installable tarballs
       run: |
+        python3 --version
         cd builder
         cd Linux
         ./make.sh debdeps
@@ -97,6 +98,7 @@ jobs:
 
     - name: Install pyinstaller
       run: |
+        python3 --version
         pip install -U pyinstaller
         pip install -U twisted
         pip install -U pywin32
@@ -148,6 +150,7 @@ jobs:
 
     - name: Install pyinstaller
       run: |
+        python3 --version
         pip install -U pyinstaller
         pip install -U twisted
         pip install -U pillow
