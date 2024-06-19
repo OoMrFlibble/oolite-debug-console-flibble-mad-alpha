@@ -81,7 +81,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: Oolite-Debug-Console-Linux-x86_64-Installable-onefile
-        path: /tmp/Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-x86_64-linux-installable-onefile.tgz
+        path: /tmp/Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-linux-installable-onefile.tgz
 
 
   package-windows:
