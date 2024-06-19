@@ -69,10 +69,6 @@ jobs:
 #        ./make.sh clean
 #        ./make.sh onefile Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable /tmp
 
-# For some reason this will not work in workflows. The onefile version ends up unable to function due to libraries missing.
-# It works fine on the bench.
-#        ./make.sh dist Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable /tmp
-
     - uses: actions/upload-artifact@v4
       with:
         name: Oolite-Debug-Console-Linux-x86_64-Installable-onedir
@@ -81,7 +77,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: Oolite-Debug-Console-Linux-x86_64-Installable-onefile
-        path: /tmp/Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-linux-installable-onefile.tgz
+        path: /tmp/Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable-onefile.tgz
 
 
   package-windows:
