@@ -90,6 +90,7 @@ class SimpleConsoleDelegate:
 	__active = Active = False
 
 	def __init__(self, protocol):
+		print("FLIBBLEDEBUG 201")
 		self.protocol = protocol
 		self.identityString = "DebugConsole"
 		self._host = ''
@@ -97,12 +98,16 @@ class SimpleConsoleDelegate:
 
 	# noinspection PyUnresolvedReferences
 	def __del__(self):
+		print("FLIBBLEDEBUG 202")
 		if self.__active: 
+			print("FLIBBLEDEBUG 203")
 			self.protocol.factory.activeCount -= 1
 		if _consoleHandler.inputReceiver is self:  
+			print("FLIBBLEDEBUG 204")
 			_consoleHandler.inputReceiver = None
 
 	def acceptConnection(self):
+		print("FLIBBLEDEBUG 205")
 		return self.protocol.factory.activeCount < 1
 
 	def connectionOpened(self, ooliteVersionString):
@@ -119,7 +124,8 @@ class SimpleConsoleDelegate:
 		gv.app.client = self.protocol
 		_stopOtherListeners(self._port)
 
-	def loadConfig(self, config):		
+	def loadConfig(self, config):
+		print("FLIBBLEDEBUG 206")
 		# settings received from client
 		# - config is a dict of debugger settings
 		if not gv.connectedToOolite:
@@ -129,17 +135,22 @@ class SimpleConsoleDelegate:
 			gv.app.noteConfig(config)
 
 	def connectionClosed(self, message):
+		print("FLIBBLEDEBUG 207")
 		if gv.root is None:
+			print("FLIBBLEDEBUG 208")
 			# Oolite's disconnect packet snuck in before we could exit
 			return
 		pm.disableClientSettings()
 		if message is None or su.is_str(message):
+			print("FLIBBLEDEBUG 209")
 			if message is None or len(message) == 0:
+				print("FLIBBLEDEBUG 210")
 				timeStr = time.strftime('%d %b %Y, %H:%M:%S')
 				msg = 'Connection closed with no message at {}'.format(
 															timeStr)
 				gv.app.colorPrint(msg, emphasisRanges=[37,len(timeStr)])
 			else:
+				print("FLIBBLEDEBUG 210")
 				gv.app.colorPrint('Connection closed: "{}"'.format(
 								message), emphasisRanges=[20,len(message)])
 		if self.__active:
@@ -227,7 +238,6 @@ class AppWindow(ttk.Frame):
 		else:
 			#On MacOS, doing this was causing the font dialogue to appear ALWAYS.
 			top.withdraw() #This and the update seem to effectively hide the window
-
 		top.update()   #  during construction.
 		top.minsize(con.MINIMUM_WIDTH, con.MINIMUM_HEIGHT)
 		top.resizable(width=True, height=True)
@@ -1231,20 +1241,6 @@ class AppWindow(ttk.Frame):
 		return 'break'
 
 #	@staticmethod
-#	def exitCmd():
-#		au.closeAnyOpenFrames()
-#		cfg.writeCfgFile()
-#		if gv.CurrentOptions['Settings'].get('SaveHistoryOnExit', True):
-#			ch.saveCmdHistory()
-#		pm.sessionCleanup(abort=True)
-#FLIBBLE : MAC WON'T PASS THIS		gv.app.update() # flush any pending after_idle's
-#		tksupport.uninstall()
-#		reactor.stop()
-#		gv.root.destroy()
-#		gv.app = gv.root = None
-#Function split to work around Mac crash/segfault.
-
-	# @staticmethod
 	def exitCmd(self):
 		au.closeAnyOpenFrames()
 		cfg.writeCfgFile()
@@ -1410,6 +1406,7 @@ def _startListeners():
 		try:
 			# listenPorts.append(reactor.listenTCP(port, factory))
 			# add local network connections
+			print("FLIBBLEDEBUG 001")
 			sStr = f'tcp:{port}:interface={serverAddr}'
 			# listener = serverFromString(reactor, sStr).listen(factory)
 			# serverFromString returns an instance of
@@ -1418,15 +1415,19 @@ def _startListeners():
 			# listen returns a Deferred whose 'result' attr is an instance of
 			#   twisted.internet.tcp.Port
 			listener = server.listen(factory)
+			print("FLIBBLEDEBUG 002")
 
 			if isinstance(listener.result, TwistedPort):
+				print("FLIBBLEDEBUG 003")
 				# listener.addCallback(_saveOpenPort)
 				listener.addCallbacks(_saveOpenPort, _reportPortError)
 				listeningPorts += 1
 			elif isinstance(listener.result, Failure):
+				print("FLIBBLEDEBUG 004")
 				listenErrors.append(listener.result.value)
 
 		except Exception as exc:
+			print("FLIBBLEDEBUG 006")
 			errmsg = f'_startListeners, {exc!r}'
 			gv.startUpInfo['error'].append(errmsg)
 			print(f'unexpected  {exc!r}')
@@ -1434,6 +1435,7 @@ def _startListeners():
 				pdb.set_trace()
 
 	if listeningPorts == 0:
+		print("FLIBBLEDEBUG 007")
 		oops = '\n'.join(str(lE) for lE in listenErrors) \
 				if listenErrors else ''
 		oops += "\n\nNo available ports to start listening for Oolite connections."
@@ -1444,6 +1446,7 @@ def _startListeners():
 			reportStartupInfo()
 		return False
 	elif len(listenErrors):
+		print("FLIBBLEDEBUG 008")
 		gv.startUpInfo['setup'].extend('CannotListenError, IP address: {}, port: {}\n  {}'
 									   .format(lE.interface, lE.port, lE.socketError)
 									   for lE in listenErrors)
@@ -1453,23 +1456,29 @@ def _startListeners():
 def runConsole():
 	global _consoleHandler
 
+	print("FLIBBLEDEBUG 101")
 	erred = False
 	try:
 		_initLogger()
+		print("FLIBBLEDEBUG 102")
 		try:
+			print("FLIBBLEDEBUG 103")
 			gv.app = AppWindow()
 			# initConfig called early as setup relies on it
 			cfg.initConfig()
 			gv.initVars()			
 			gv.app.setupApp()
 			if not _startListeners():
+				print("FLIBBLEDEBUG 104")
 				return True
 			errors = _formatErrs(con.NL)
 			if len(errors):
+				print("FLIBBLEDEBUG 105")
 				gv.app.colorPrint(errors)
 				gv.app.colorPrint(con.NL)
 
 		except Exception as exc:
+			print("FLIBBLEDEBUG 106")
 			errmsg = f'runConsole, Error setting up app: {exc!r}'
 			gv.startUpInfo['setup'].append(errmsg)
 			if con.CAGSPC:
@@ -1481,6 +1490,7 @@ def runConsole():
 
 		# Set up command line I/O protocol
 		# (required global for SimpleConsoleDelegate)
+		print("FLIBBLEDEBUG 107")
 		_consoleHandler = OoliteDebugCLIProtocol()
 		stdio.StandardIO(_consoleHandler)
 		gv.root.deiconify()
@@ -1497,6 +1507,7 @@ def runConsole():
 		_startApp()
 
 	except Exception as exc:
+		print("FLIBBLEDEBUG 108")
 		erred = True
 		msg, kind = cfg.parseErr(exc)
 		errmsg = 'Exception: '
@@ -1512,11 +1523,13 @@ def runConsole():
 		if con.CAGSPC:
 			reportStartupInfo()
 	else:
+		print("FLIBBLEDEBUG 109")
 		# Install the Reactor support & start listening
 		tksupport.install(gv.app)
 		# Wait for user input.
 		reactor.run()
 	finally:
+		print("FLIBBLEDEBUG 110")
 		return erred
 
 def main():
