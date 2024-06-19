@@ -64,11 +64,8 @@ jobs:
         cd builder
         cd Linux
         ./make.sh debdeps
-<<<<<<< HEAD
         ./make.sh dist Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable /tmp
-=======
-        ./make.sh onedir Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable /tmp
->>>>>>> 2d4fc1d (Fixed fault in cliArgs, where a created directory would not be used by the argument that created it.)
+#        ./make.sh onedir Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable /tmp
 #        ./make.sh clean
 #        ./make.sh onefile Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-linux-x86_64-installable /tmp
 
