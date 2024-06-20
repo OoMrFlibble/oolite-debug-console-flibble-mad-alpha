@@ -1,0 +1,26 @@
+Alias examples:
+
+These are as stored in the config file. Note, OoDC will need to be restarted to show tooltips for existing buttons.
+
+The name of the alias is used to sort the buttons (and the config file). If defining a function, the function name will be shown on the button.
+
+If a javascript comment in the alias contains tooltip:[space], the rest of the comment will be used as a tooltip.
+
+This is a simple example with a tooltip. I've named it _1001_Refuel to keep it high up the sort order, so it will appear top left. It has a simple one line comment containing a tooltip. When pressed, the player ship will be fuelled up instantly.
+
+_1001_Refuel := NM:
+// tooltip: Fill up with  Quirium goodness.
+(function Refuel() { player.ship.fuel = 7; })()
+
+This is similar, but with a multi-line comment. Anything after tooltip:[space] to the end of the comment will be in the tooltip. When pressed, whatever the player ship is targeting will be 'exploded'.
+
+_1002_Bang := NM:
+/*
+
+tooltip: Blow up target.
+Have fun!
+
+ */
+(function Bang() {
+    player.ship.target.explode();
+})()
