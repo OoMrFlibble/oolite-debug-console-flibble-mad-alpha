@@ -541,7 +541,7 @@ def setDebugOption(label, value, tkVar): # called by processSilentCmd
 		else:
 			errmsg = 'unsupported label: {}, value: {}, type: {}'.format(
 						label, value, type(value))
-			if con.CAGSPC:
+			if gv.debugOn:
 				print(errmsg)
 				traceback.print_exc()
 				pdb.set_trace()
@@ -564,7 +564,7 @@ def setDebugOption(label, value, tkVar): # called by processSilentCmd
 	else:
 		errmsg = 'wrong type for label: {}, value: {}, type: {}'.format(
 					label, value, type(value))
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(errmsg)
 			traceback.print_exc()
 			pdb.set_trace()

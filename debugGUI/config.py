@@ -59,7 +59,7 @@ def parseErr(err):
 			msg = msg[start:min(end, len(msg))]
 		return msg, kind
 	except Exception as exc:
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(exc)
 			traceback.print_exc()
 			pdb.set_trace()
@@ -176,7 +176,7 @@ def _setDefaultConfig(db, mkObj=False):
 	except Exception as exc:
 		msg = repr(exc)
 		gv.debugLogger.exception(msg)
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(msg)
 			traceback.print_exc()
 			pdb.set_trace()
@@ -206,7 +206,7 @@ def _saveComments(obj, string, index):
 			continue
 		print('_saveComments, failed to parse comment at index {} + {}: {!r} <> {!r}'
 			  .format(index, cmtIdx, string[0:cmtIdx], string[cmtIdx:]))
-		if con.CAGSPC:
+		if gv.debugOn:
 			pdb.set_trace()
 		break  # safety valve, should never execute
 	return index + cmtIdx
@@ -293,13 +293,13 @@ def _readAliases(sectionObj, string, index):
 				else:
 					msg = f'failed to read defn, index: {index}'
 					gv.debugLogger.error(msg)
-					if con.CAGSPC:
+					if gv.debugOn:
 						print(msg)
 						pdb.set_trace()
 			else:
 				msg = f'failed to read all aliases, index: {index}'
 				gv.debugLogger.error(msg)
-				if con.CAGSPC:
+				if gv.debugOn:
 					print(msg)
 					pdb.set_trace()
 				break
@@ -307,7 +307,7 @@ def _readAliases(sectionObj, string, index):
 	except Exception as exc:
 		errmsg = 'error loading configuration: ' + repr(exc)
 		gv.debugLogger.exception(errmsg)
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(errmsg)
 			traceback.print_exc()
 			pdb.set_trace()
@@ -387,7 +387,7 @@ def _readCfgFile():
 		errmsg = 'error loading configuration: '
 		errmsg += repr(exc)
 		gv.debugLogger.exception(errmsg)
-	if con.CAGSPC:
+	if gv.debugOn:
 		print(errmsg)
 		traceback.print_stack(limit=4)
 		pdb.set_trace()
@@ -625,7 +625,7 @@ def _getAppsCfg():
 	except Exception as exc:
 		errmsg = 'failed reading application configuration: '
 		errmsg += repr(exc)
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(errmsg)
 			traceback.print_exc()
 			pdb.set_trace()
@@ -789,7 +789,7 @@ def writeCfgFile(saveNow=False):
 	except Exception as exc:
 		errmsg = 'failed to save configuration file: '
 		errmsg += repr(exc)
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(errmsg)
 			traceback.print_exc()
 			pdb.set_trace()

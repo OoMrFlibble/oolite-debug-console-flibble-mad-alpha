@@ -53,7 +53,8 @@ LOG_EXT = '.' + dca.g['lext']
 
 LOG_PATH = dca.g['lpath']
 CFG_PATH = dca.g['cpath']
-LOG_STDERR = dca.g['stderr']
+DEBUG_ON = dca.g['debug'] # turn on breakpoints etc.
+#LOG_STDERR = dca.g['stderr']
 
 CFG_BASE = os.path.join ( CFG_PATH, BASE_FNAME )
 HIST_BASE = os.path.join ( LOG_PATH, BASE_FNAME )
@@ -1083,4 +1084,8 @@ toolTips = {
 }
 
 #CAGSPC = os.path.exists(r'C:\Users\cag')
+# FLIBBLE SAYS:-
+#  There are a couple of bits in widgets.py that still use this.
+#  It may be ok to fix them as though this were on.
+#   but I need to talk with cag about how to verify sanity.
 CAGSPC = True

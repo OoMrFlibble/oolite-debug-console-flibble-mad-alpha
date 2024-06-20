@@ -338,7 +338,7 @@ def showFileFind():			# display finder frame (called via Options menu)
 			gv.grepWindow.restoreTop()
 		except Exception as exc:
 			errmsg = f'Exception: {exc}, grepPosn: {grepPosn}'
-			if con.CAGSPC:
+			if gv.debugOn:
 				print(errmsg)
 				traceback.print_exc()
 				pdb.set_trace()
@@ -592,7 +592,7 @@ def _some(name, amount):
 
 def _reportFilesFound():
 	_progressReport()
-	if con.CAGSPC:
+	if gv.debugOn:
 		try:
 			print('_reportFilesFound, len(_filesFound)', len(_filesFound))
 			for it in findArgs.__dict__:
@@ -947,7 +947,7 @@ def _generateFileLines(path, files):
 			errmsg += f'  in {normPath!r}\n    file {zfile!r}'
 		else:
 			errmsg += f'  file {normPath!r}'
-		if con.CAGSPC:
+		if gv.debugOn:
 				print(errmsg)
 				traceback.print_exc()
 				pdb.set_trace()
@@ -1069,7 +1069,7 @@ def _searchInsideFiles():
 		_finishSearch()
 	except Exception as exc:
 		errmsg = f'Exception: {exc}'
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(errmsg)
 			traceback.print_exc()
 			pdb.set_trace()
@@ -1219,7 +1219,7 @@ def _searchFile(path, lines):
 		errmsg = f'Exception: {exc}'
 		errmsg += f'  row {row}, spans: {spans}\n'
 		errmsg += f'  >>line: {line}\n'
-		if con.CAGSPC:
+		if gv.debugOn:
 			traceback.print_exc()
 			print(errmsg)
 			pdb.set_trace()

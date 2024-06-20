@@ -77,7 +77,7 @@ def createOptionsMenus(): 				# create an Options pull down menu
 						 	command=_resetWindowPositions)
 
 	## rest is debugging
-	if con.CAGSPC:
+	if gv.debugOn:
 		optionsMenu.add_command(label='open debugger', command=gv.setTrace)
 
 def _resetWindowPositions():

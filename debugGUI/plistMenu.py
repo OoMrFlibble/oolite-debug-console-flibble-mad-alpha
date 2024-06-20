@@ -115,7 +115,7 @@ def initClientSettings(settings):
 			else:
 				errmsg = 'unsupported var {}: {}, type: {}'.format(
 						key, value, type(value))
-				if con.CAGSPC:
+				if gv.debugOn:
 					print(errmsg)
 					traceback.print_exc()
 					pdb.set_trace()
@@ -460,7 +460,7 @@ def _sessionStarted(*args):
 			currTime = mu.timeCount()
 			msg = 'initialization took {:.2f}s ({:.2f}s after startup)'.format(
 					currTime - gv.initStartTime, currTime)
-			if con.CAGSPC:
+			if gv.debugOn:
 				print(msg)
 			else:
 				gv.debugLogger.debug(msg)

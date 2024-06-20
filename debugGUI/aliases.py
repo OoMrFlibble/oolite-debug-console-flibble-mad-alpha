@@ -232,7 +232,7 @@ class UndoStack:
 				item.obj.button, item.button = item.button, item.obj.button
 				item.inMenu = not item.inMenu
 			else:
-				if con.CAGSPC:
+				if gv.debugOn:
 					print(f'invertOp, undo has invalid op: {item.op!r}')
 					pdb.set_trace()
 		except Exception as exc:
@@ -333,7 +333,7 @@ def showAliasWindow():					# display alias frame (via Options menu)
 		except Exception as exc:
 			errmsg = 'Exception: {}, aliasPosn: {}'.format(
 								exc, aliasPosn)
-			if con.CAGSPC:
+			if gv.debugOn:
 				print(errmsg)
 				traceback.print_exc()
 				pdb.set_trace()
@@ -543,7 +543,7 @@ def lookupAlias(event=None, key=None):	# <<ListboxSelect>> handler
 		if gv.connectedToOolite:
 			obj = gv.aliases.get(alias)
 			if obj is None:
-				if con.CAGSPC:
+				if gv.debugOn:
 					print(f'lookupAlias, {alias!r} is missing from gv.aliases')
 					pdb.set_trace()
 				return 'break'
@@ -577,7 +577,7 @@ def newAliasAdd(event=None):			# <Return> handler in aliasNameEntry
 		return 'break'
 	obj = gv.aliases.get(alias)
 	if obj is None:
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(f'newAliasAdd, {alias!r} is missing from gv.aliases')
 			pdb.set_trace()
 		return 'break'
@@ -642,7 +642,7 @@ def _emphasizeLine(lineNum, offset, obj):
 		# ensure line is visible
 		txt.see(start)
 	except Exception as exc:
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(exc)
 			traceback.print_exc()
 			pdb.set_trace()
@@ -728,7 +728,7 @@ def toggleAliasPoll(): 					# handler for 'polled' Checkbutton,
 	_undoStack.addUndo('polled', alias)
 	obj = gv.aliases.get(alias)
 	if obj is None:
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(f'toggleAliasPoll, {alias!r} is missing from gv.aliases')
 			pdb.set_trace()
 		return 'break'
@@ -761,7 +761,7 @@ def toggleAliasInMenu(event=None):		# handler for aliasAsButton Checkbutton,
 	_undoStack.addUndo('inMenu', alias)
 	obj = gv.aliases.get(alias)
 	if obj is None:
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(f'toggleAliasInMenu, {alias!r} is missing from gv.aliases')
 			pdb.set_trace()
 		return 'break'
@@ -812,7 +812,7 @@ def aliasAdd():							# handler for 'Add' button
 		return 'break'
 	obj = gv.aliases.get(alias)
 	if obj is None:
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(f'aliasAdd, {alias!r} is missing from gv.aliases')
 			pdb.set_trace()
 		return 'break'
@@ -1266,7 +1266,7 @@ def _aliasPolledStr(alias):
 def _aliasInMenuStr(alias):
 	obj = gv.aliases.get(alias)
 	if obj is None:
-		if con.CAGSPC:
+		if gv.debugOn:
 			pdb.set_trace()
 		return ''
 	return 'm' if obj.inMenu else ''
@@ -1471,7 +1471,7 @@ def _setAliasValue(alias):
 		obj = gv.aliases.get(alias)
 		if obj is None:
 			gv.aliasValueVar.set('')
-			if con.CAGSPC:
+			if gv.debugOn:
 				print(f'_setAliasValue, {alias!r} is missing from gv.aliases')
 				pdb.set_trace()
 			return
@@ -1525,7 +1525,7 @@ def _aliasDBinsert(alias, defn, isNew):	# finish new alias insert or edit
 	_callStack()	## callStack
 	obj = gv.aliases.get(alias)
 	if obj is None:
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(f'_aliasDBinsert, {alias!r} missing from gv.aliases')
 			pdb.set_trace()
 		return
@@ -1654,7 +1654,7 @@ def _mkIIFEObjectCmd(alias, defn):						# mk silent cmd for an iife
 	_callStack()	## callStack
 	obj = gv.aliases.get(alias)
 	if obj is None:
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(f'_mkIIFEObjectCmd, {alias!r} missing from gv.aliases')
 			pdb.set_trace()
 		return ''
@@ -1680,7 +1680,7 @@ def _mkFnObjectCmd(alias, defn):		# mk silent commands for a function
 	_callStack()	## callStack
 	# obj = gv.aliases.get(alias)
 	# if obj is None:
-	# 	if con.CAGSPC:
+	# 	if gv.debugOn:
 	# 		print(f'_mkFnObjectCmd, {alias!r} missing from gv.aliases')
 	# 		pdb.set_trace()
 	# 	return ''
@@ -2231,7 +2231,7 @@ def rptAliasError(msgTag, message, appPrint=None):
 		errmsg = f'alias {alias!r} not found '
 		errmsg += 'in aliases (len: {})'.format(len(gv.alias) if gv.aliases
 												else 'gv.aliases is None!')
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(errmsg)
 			traceback.print_exc()
 			pdb.set_trace()
@@ -2246,7 +2246,7 @@ def rptAliasError(msgTag, message, appPrint=None):
 
 	if not parsedErr:  ###
 		errmsg = f'OOLITE_ERROR_RE failed to match {message!r}'
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(errmsg)
 			traceback.print_exc()
 			pdb.set_trace()
@@ -2283,7 +2283,7 @@ def rptAliasError(msgTag, message, appPrint=None):
 		else:
 			wg.OoInfoBox(gv.root, msg, font=gv.OoFonts['default'],
 						 label='Alias Polling Error')
-		# if con.CAGSPC:
+		# if gv.debugOn:
 		# 	_reportAll(message, 'rptAliasError, "poll"')
 		# 	pdb.set_trace()
 	elif op == 'send':
@@ -2291,10 +2291,10 @@ def rptAliasError(msgTag, message, appPrint=None):
 				alias, errmsg)
 		wg.OoInfoBox(gv.root, msg, font=gv.OoFonts['default'],
 					 label='Alias Error')
-		# if con.CAGSPC:
+		# if gv.debugOn:
 		# 	_reportAll(message,'rptAliasError, "send"')
 		# 	pdb.set_trace()
-	elif con.CAGSPC:  ##
+	elif gv.debugOn:  ##
 		# print('rptAliasError, unhandled SyntaxError for op == {!r}, alias {}'.format(op, alias))
 		# print('rptAliasError, internal cmd \n  {!r}'.format(gv.lastCommand))
 		# print('\nrptAliasError, message: ({}), len {}'.format(msgLabel, len(gv.pendingMessages)))

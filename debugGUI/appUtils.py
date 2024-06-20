@@ -17,7 +17,7 @@ def report_callback_exception(*args): 	# replacement for Tk's
 	errmsg = ''.join(traceback.format_exc())
 	wg.OoInfoBox(gv.root, errmsg,
 				 label=repr(args[0]) if args else None, error=True) # tmp4test
-	if con.CAGSPC:
+	if gv.debugOn:
 		if args:
 			print('args:', args)
 		print(errmsg)

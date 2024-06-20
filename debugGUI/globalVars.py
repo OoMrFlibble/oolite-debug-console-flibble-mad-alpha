@@ -14,6 +14,8 @@ import debugGUI.stringUtils as su
 ## global variables
 ##======================================================================
 
+debugOn = con.DEBUG_ON # Replacing the con.CAGSPC debug stuff. Allows menus to be turned off if in here.
+
 root = None					# app's Tk root (return from tk.Tk())
 app = None					# AppWindow instance (app's ttk Frame)
 menubar = None				# ttk Frame for menubar
@@ -279,19 +281,20 @@ def save20History(option, combo):
 
 # noinspection PyUnresolvedReferences,PyUnusedLocal
 def setTrace():
-	if con.CAGSPC:
-		pass
-		##import debugGUI.constants as con
-		##import debugGUI.miscUtils as mu
-		# import debugGUI.regularExpn as rx
-		##import debugGUI.stringUtils as su
+	if debugOn:
+		breakpoint()
+		#pass
+		#import debugGUI.constants as con
+		#import debugGUI.miscUtils as mu
+		#import debugGUI.regularExpn as rx
+		#import debugGUI.stringUtils as su
 
-		sys.modules[__name__]
-		CurrentOptions['Settings']
-		CurrentOptions['Font']
-		CurrentOptions['Colors']
-		CurrentOptions['History']
-		pdb.set_trace()
+		#sys.modules[__name__]
+		#CurrentOptions['Settings']
+		#CurrentOptions['Font']
+		#CurrentOptions['Colors']
+		#CurrentOptions['History']
+		#pdb.set_trace()
 
 # noinspection PyUnresolvedReferences
 def toggleDebugMsgs():
@@ -617,7 +620,7 @@ class Alias:			# OrderedDict members
 				msg = 'failed to parse alias {!r}: \n  {!r}'.format(
 						self.name, self.defn)
 				debugLogger.error(msg)
-				if con.CAGSPC:
+				if gv.debugOn:
 					print(msg)
 					pdb.set_trace()
 				break
@@ -1055,7 +1058,7 @@ def defaultPolling(alias, defn=None):
 
 		errmsg = f'DEFAULT_POLLING_RE for {alias!r} failed to match '
 		errmsg += repr(stripped)
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(errmsg)
 			pdb.set_trace()
 		else:

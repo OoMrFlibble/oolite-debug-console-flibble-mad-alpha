@@ -312,7 +312,7 @@ class AppWindow(ttk.Frame):
 
 		# lower Frame
 		# make the PanedWindow fill its Frame
-		self.rowconfigure(0, weight=1)		
+		self.rowconfigure(0, weight=1)
 		self.columnconfigure(0, weight=1)
 		self.grid(row=1, column=0, sticky='news')
 
@@ -544,7 +544,7 @@ class AppWindow(ttk.Frame):
 			return array[max(stop - _WIDTH, stop - (begin + _WIDTH)):stop]
 
 		_WIDTH = 120
-		if gv.lastCommand and con.CAGSPC:
+		if gv.lastCommand and gv.debugOn:
 			lenM = len(gv.lastCommand)
 			print('>>> lastCommand ({}): {!r}{}'.format(
 					lenM, head(gv.lastCommand),
@@ -683,7 +683,7 @@ class AppWindow(ttk.Frame):
 			self.messageBatchSize += self.messageBatchSize // 2
 			status = f'buffer has {length} messages, => '
 			status += f'larger messageBatchSize {self.messageBatchSize}'
-			if con.CAGSPC:
+			if gv.debugOn:
 				print('handleMessage' + status)
 			else:
 				gv.debugLogger.debug(status)
@@ -729,7 +729,7 @@ class AppWindow(ttk.Frame):
 				if elapsed >= 8:
 					# spent too much time processing, next call is done
 					# quickly (8 ms is Oolite retry wait time)
-					if con.CAGSPC:
+					if gv.debugOn:
 						print('processMessages, quitting due to elapsed: {:3.4f} ms, startCount: {}'
 							  .format(elapsed, startCount)) ###
 						print('  pending ({}):\n  {}'.format(len(gv.pendingMessages),
@@ -794,7 +794,7 @@ class AppWindow(ttk.Frame):
 						msg += '\n    colorKey {}, message: {}'.format(
 								colorKey, message[:80] \
 										  + (' ...' if len(message) > 80 else ''))
-						if con.CAGSPC:
+						if gv.debugOn:
 							print(msg)
 							traceback.print_exc()
 							pdb.set_trace()
@@ -823,14 +823,14 @@ class AppWindow(ttk.Frame):
 											else self.messageBatchSize // 2
 					status = 'smaller messageBatchSize '
 					status += str(self.messageBatchSize)
-					if con.CAGSPC:
+					if gv.debugOn:
 						print('processMessages, ' + status)
 					else:
 						gv.debugLogger.debug(status)
 			else:
 				errmsg = f'IOError: {exc!r}'
 				gv.debugLogger.exception(errmsg)
-				if con.CAGSPC:
+				if gv.debugOn:
 					print(errmsg)
 					traceback.print_exc()
 					pdb.set_trace()
@@ -838,7 +838,7 @@ class AppWindow(ttk.Frame):
 					gv.debugLogger.error(errmsg)
 		except Exception as exc:
 			errmsg = f'Exception: {exc!r}'
-			if con.CAGSPC:
+			if gv.debugOn:
 				print(errmsg)
 				traceback.print_exc()
 				pdb.set_trace()
@@ -896,7 +896,7 @@ class AppWindow(ttk.Frame):
 			else:
 				errmsg = 'unsupported result '
 				errmsg += f'"{result}" for label "{msgLabel}"'
-				if con.CAGSPC:
+				if gv.debugOn:
 					print(errmsg)
 					traceback.print_exc()
 					pdb.set_trace()
@@ -906,7 +906,7 @@ class AppWindow(ttk.Frame):
 			if result != 'true':
 				errmsg = 'error deleting iife property '
 				errmsg += f'"{msgLabel}", result "{result}"'
-				if con.CAGSPC:
+				if gv.debugOn:
 					print(errmsg)
 					traceback.print_exc()
 					pdb.set_trace()
@@ -1028,7 +1028,7 @@ class AppWindow(ttk.Frame):
 				self.addWords(text, tag, maxWidth, emphasisRanges)
 		except Exception as exc:
 			errmsg = f'Exception: {exc!r}'
-			if con.CAGSPC:
+			if gv.debugOn:
 				print(errmsg)
 				traceback.print_exc()
 				pdb.set_trace()
@@ -1282,14 +1282,14 @@ def _initLogger():
 		logger.logThreads = 0
 		logger.logProcesses = 0	
 		logger.logMultiprocessing = 0
-		if not con.CAGSPC and (con.FROZEN or not sys.stdout.isatty()):
+		if not gv.debugOn and (con.FROZEN or not sys.stdout.isatty()):
 			# consider all prints as debug information
 			logger.write = logger.debug
 			# this may be called when printing
 			logger.flush = lambda: None
 			sys.stdout = logger
 			sys.stderr = logger
-		elif con.CAGSPC:
+		elif gv.debugOn:
 			logger.setLevel(logging.DEBUG)
 		gv.debugLogger = logger
 	except Exception as exc:
@@ -1356,7 +1356,7 @@ def _startApp():
 		errmsg = f'Exception: {exc!r}'
 		if gv.debugLogger:
 			gv.debugLogger.exception(errmsg)
-		if con.CAGSPC:
+		if gv.debugOn:
 			traceback.print_exc()
 			print(errmsg)
 			pdb.set_trace()
@@ -1419,7 +1419,7 @@ def _startListeners():
 			errmsg = f'_startListeners, {exc!r}'
 			gv.startUpInfo['error'].append(errmsg)
 			print(f'unexpected  {exc!r}')
-			if con.CAGSPC:
+			if gv.debugOn:
 				pdb.set_trace()
 
 	if listeningPorts == 0:
@@ -1429,7 +1429,7 @@ def _startListeners():
 		oops += "\nPlease, try again later."
 		gv.startUpInfo['setup'].append(oops)
 		_showAbortMsg()
-		if con.CAGSPC:
+		if gv.debugOn:
 			reportStartupInfo()
 		return False
 	elif len(listenErrors):
@@ -1461,7 +1461,7 @@ def runConsole():
 		except Exception as exc:
 			errmsg = f'runConsole, Error setting up app: {exc!r}'
 			gv.startUpInfo['setup'].append(errmsg)
-			if con.CAGSPC:
+			if gv.debugOn:
 				traceback.print_exc()
 				print(errmsg)
 				pdb.set_trace()
@@ -1498,7 +1498,7 @@ def runConsole():
 		if gv.debugLogger:
 			gv.debugLogger.exception(errmsg)
 		_showAbortMsg()
-		if con.CAGSPC:
+		if gv.debugOn:
 			reportStartupInfo()
 	else:
 		# Install the Reactor support & start listening
@@ -1521,7 +1521,7 @@ def main():
 			gv.debugLogger.exception(errmsg)
 		elif not con.FROZEN and sys.stdout.isatty():
 			print(errmsg)
-		if con.CAGSPC:
+		if gv.debugOn:
 			traceback.print_exc()
 			pdb.set_trace()
 	finally:

@@ -19,7 +19,7 @@ from debugGUI._version import __version__
 # so moved platform check here to avoid circular reference vs constants.
 import sys
 p = dict (
-  f = hasattr(sys, 'frozen'),  ## cannot test until build exe
+  f = hasattr(sys, 'frozen'),
   w = sys.platform.startswith('win'),
   l = sys.platform.startswith('linux'),
   m = sys.platform.startswith('darwin')
@@ -46,7 +46,7 @@ g = dict(
   cext = 'cfg',
   hext = 'dat',
   lext = 'log',
-  stderr = False,
+  debug = False,
 )
 
 ##### This will cause unknown arguments to spit out full help.
@@ -99,12 +99,12 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help', '-?'])
 @click.option("--hext","-z",
   help=("History file extension. Default=" +
   str(g['hext'])+" (filter\u00a0A-Za-z0-9)"), type=str)
-@click.option("--stderr","-e",
+@click.option("--debug","-d",
   help=(
-  "Send log to stderr instead of file (not yet implemented). Default=" +
-  str(g['stderr'])), is_flag=True) #seems to like file OR dir.
+  "Enable some internal debug functions. Default=" +
+  str(g['debug'])), is_flag=True) #seems to like file OR dir.
 
-def cli(base,cpath,lpath,cext,lext,hext,stderr):
+def cli(base,cpath,lpath,cext,lext,hext,debug):
   """OoDC (Oodyssey) : the Oolite Debug Console
   \b
   Config files and logs will be stored in a location.
@@ -126,8 +126,8 @@ def cli(base,cpath,lpath,cext,lext,hext,stderr):
         'Invalid base filename. Only A-Za-z0-9_- are accepted.\n',
         param_hint=["--base"])
 
-  if stderr:
-    g['stderr'] = True
+  if debug:
+    g['debug'] = True
 
   isExt(cext,'cext')
   isExt(lext,'lext')
@@ -136,7 +136,7 @@ def cli(base,cpath,lpath,cext,lext,hext,stderr):
 #  click.echo(f"cpath: {cpath!r}")
 #  click.echo(f"lpath: {lpath!r}")
 #  click.echo(f"base: {base!r}")
-#  click.echo(f"stderr: {stderr!r}")
+#  click.echo(f"debug: {debug!r}")
 #  click.echo(f"cext: {cext!r}")
 #  click.echo(f"lext: {lext!r}")
 #  click.echo(f"hext: {hext!r}")
@@ -160,7 +160,6 @@ def exec():
 
   if shouldquit:
 #    quit() #breaks if frozen
-    import sys
     sys.exit(1)
 
 
@@ -215,5 +214,3 @@ exec()
 #  con.BASE_FNAME = base
 #if __name__ == '__main__':
 #    exec()
-
-

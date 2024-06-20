@@ -183,7 +183,7 @@ def _rebuildComments(obj, defn):
 					continue
 				break
 			print(f'getIndent, Yikes! failed to match: {defn[index:]!r}')
-			if con.CAGSPC:
+			if gv.debugOn:
 				pdb.set_trace()
 
 		def isAdjacentCmt(index):
@@ -699,7 +699,7 @@ def restoreAliasDefn(obj, defn):
 			msg += '\nMoving the comment around should fix the problem.'
 			msg += '\nFYI: the error generated was:\n'
 			msg += check[0] if isinstance(check, (list,tuple)) else check
-			if con.CAGSPC:
+			if gv.debugOn:
 				print(msg)
 				print('alias', repr(obj.name))
 				pdb.set_trace()
@@ -743,7 +743,7 @@ def checkJSsyntax(obj, string=None, silent=False):
 						 label=f'JSSyntaxError: {obj.name!r}')
 		return msg, line, char
 	except Exception as exc:
-		if con.CAGSPC:
+		if gv.debugOn:
 			print(exc)
 			traceback.print_exc()
 			pdb.set_trace()

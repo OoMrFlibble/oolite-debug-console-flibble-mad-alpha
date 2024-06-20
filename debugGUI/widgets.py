@@ -1944,7 +1944,7 @@ class SearchBox(TopWindow):
 				gv.debugLogger.error(errmsg)
 			except Exception as exc:
 				errmsg = f'startSearch, Exception: {exc!r}'
-				if con.CAGSPC:
+				if gv.debugOn:
 					print(errmsg)
 					traceback.print_exc()
 					pdb.set_trace()
@@ -2345,7 +2345,7 @@ class TextPopup(tk.Menu):
 				# (will silently fail otherwise)
 			else:
 				errmsg = f'unknown key "{key}" in delUndoStack'
-				if con.CAGSPC:
+				if gv.debugOn:
 					print(errmsg)
 					traceback.print_exc()
 					pdb.set_trace()
@@ -2762,7 +2762,7 @@ class ScrollingText(tk.Text):
 		self.stopper.grid(row=1, column=1, sticky='se')
 		# vanishing scrollbars disable for users until sure endless
 		# recursion bug fixed (see checkStopper & needsScrollbars too)
-		if con.CAGSPC:
+		if con.CAGSPC: # Flibble : Leaving this in for now.
 			self.stopper.grid_remove()
 		self.stopper.grid_propagate(0)
 		self.vScrollbar.grid(row=0, column=1, sticky='ns')
@@ -2877,7 +2877,7 @@ class ScrollingText(tk.Text):
 			if self._dbg:
 				print('  hScrollbar.grid_remove()')
 
-		if altered and con.CAGSPC:
+		if altered and con.CAGSPC: # Flibble : Leaving this in for now.
 			# unsure this is wise
 			checkStopper()
 			return
@@ -2915,8 +2915,8 @@ class ScrollingText(tk.Text):
 				count -= 1
 			return exceeds
 
-		if not con.CAGSPC:
-			return True, True
+#		if not con.CAGSPC:
+#			return True, True
 		# these exclude scrollbars if present
 		width, height = self.winfo_width(), self.winfo_height()
 		vScrollMapped = self.vScrollbar.winfo_ismapped()
