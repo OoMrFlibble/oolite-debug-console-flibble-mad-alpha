@@ -2011,24 +2011,20 @@ def _makeAliasMenuButton(alias):		# build alias menu button
 	if obj:
 		# aliasButtonFrames is also in_ gv.menubar
 		gv.aliasMenuButtons[alias] = obj.createBtn(gv.menubar)
-		# Try to get tooltip from between /* ... */ style comments
-		#  Not caring about nested comments. Allowing multi-line tooltips.
-		#  Not removing any '*'
-		# Might prefer to constrain this to only allowing "/* tooltip: $x /*
-		# Where only the $x portion can be multiline.
-		ttip=""
-		match=re.search(r'.*/\*.+tooltip: (.+)\*/.*', obj.defn, flags=re.S|re.M)
-		if match:
-			ttip=str(match.group(1))
-		else:# If no substitution, seek // one line comment
-			# Format exactly "^// tooltip: TOOLTIP STRING$" one-line.
-			match=re.search(r'^.*// tooltip: (.+)$.*' , obj.defn, flags=re.M)
-			if match:
-				ttip=str(match.group(1))
-		if len(ttip) > 0:
-			wg.ToolTip(obj.button, ttip.strip(),
-				gv.CurrentOptions['Settings'].get('FindToolTipDelayMS', 0),
-				allowHide=False)
+		if len(obj.comments) > 0:
+			for cmt in obj.comments:
+				lowText = cmt.text.lower()
+				slash = lowText.find('/')
+				tag = lowText.find(con.ALIAS_TOOLTIP, slash + 2)
+				if -1 < tag:
+					isInline = lowText.find('*', slash) == slash + 1
+					tipEnd = lowText.find('*', slash + 2) if isInline else None
+					msg = cmt.text[tag + len(con.ALIAS_TOOLTIP):tipEnd].strip()
+#					wg.ToolTip(obj.button, msg,
+#						gv.CurrentOptions['Settings'].get('FindToolTipDelayMS', 0),
+#							allowHide=False)
+#					Tooltip(obj.button, msg=msg, delay=gv.CurrentOptions['Settings'].get('FindToolTipDelayMS', 0)) #flibble tooltiptest
+					break
 	_setAliasButtonCmd(alias)
 
 def _setAliasButtonCmd(alias):			# set cmd invoked when menubar button pressed
