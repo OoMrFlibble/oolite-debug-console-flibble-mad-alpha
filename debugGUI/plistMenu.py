@@ -66,6 +66,7 @@ def initClientSettings(settings):
 							postcommand=au.closeAnyOpenFrames)
 	gv.ooliteMenu = OoMenu
 	gv.debugConsoleMenus.append(gv.ooliteMenu)
+	al.gridMenuButtons()
 	pairs = OrderedDict(sorted(settings.items(),
 								key=lambda t: _sortSettings(t[0])))
 	gv.ooliteColors.clear()

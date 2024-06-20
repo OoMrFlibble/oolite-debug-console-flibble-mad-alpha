@@ -7,6 +7,7 @@ from collections import OrderedDict
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as tkFileDialog
+#from tktooltip import ToolTip #Flibble tooltip test
 
 # try:
 	# import debugGUI.aliases as al
@@ -66,7 +67,7 @@ def buildGUI():
 	om.createOptionsMenus()
 	fm.createFontMenus()
 	pm.initConnectionVars()
-	# - the Settings menu is created upon connection, as they vary		
+	# - the Settings menu is created upon connection, as they vary
 
 	settings = gv.CurrentOptions['Settings']
 	history = gv.CurrentOptions['History']

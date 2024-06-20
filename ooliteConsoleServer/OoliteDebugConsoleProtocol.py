@@ -96,7 +96,7 @@ class OoliteDebugConsoleProtocol (PropertyListPacketProtocol):
 			self.sendPlistPacket(packet)
 
 
-	# Internals beyod this point
+	# Internals beyond this point
 	def connectionMade(self):
 		self.delegate = self.factory.delegateClass(self)
 

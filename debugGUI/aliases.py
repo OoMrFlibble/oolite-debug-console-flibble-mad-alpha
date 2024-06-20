@@ -6,6 +6,7 @@ from collections import namedtuple
 import pdb, traceback
 
 import tkinter.ttk as ttk
+#from tktooltip import ToolTip #Flibble tooltip test
 
 import debugGUI.appUtils as au
 import debugGUI.comments as cmt
@@ -2019,9 +2020,10 @@ def _makeAliasMenuButton(alias):		# build alias menu button
 					isInline = lowText.find('*', slash) == slash + 1
 					tipEnd = lowText.find('*', slash + 2) if isInline else None
 					msg = cmt.text[tag + len(con.ALIAS_TOOLTIP):tipEnd].strip()
-					wg.ToolTip(obj.button, msg,
-						gv.CurrentOptions['Settings'].get('FindToolTipDelayMS', 0),
-							   allowHide=False)
+#					wg.ToolTip(obj.button, msg,
+#						gv.CurrentOptions['Settings'].get('FindToolTipDelayMS', 0),
+#							allowHide=False)
+#					Tooltip(obj.button, msg=msg, delay=gv.CurrentOptions['Settings'].get('FindToolTipDelayMS', 0)) #flibble tooltiptest
 					break
 	_setAliasButtonCmd(alias)
 
