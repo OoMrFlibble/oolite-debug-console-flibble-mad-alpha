@@ -17,6 +17,9 @@ This is similar, but with a multi-line comment. Anything after tooltip:[space] t
 _1002_Bang := NM:
 /*
 
+This bit if the comment is just a comment.
+Anything after tooltip[colon][space] will be used as a tooltip.
+
 tooltip: Blow up target.
 Have fun!
 
