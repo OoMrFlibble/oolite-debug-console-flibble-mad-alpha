@@ -66,7 +66,7 @@ from _version import __version__
 print(__version__)
 " | python) && cd - || q "error ascertaining version"
  [ "x$ver" = "x" ] && q "version not found. version file empty or absent"
- [ "x$alttarbase" != "x" ] && tarbase="$alttarbase" || tarbase="${basename}-$ver-linux_installable"
+ [ "x$alttarbase" != "x" ] && tarbase="$alttarbase" || tarbase="${basename}-$ver-linux_$(arch)"
  [ "x$alttardir" != "x" ] && tardir="$alttardir" || tardir="$basedir"
  mkdir -p "$tardir" || q "could not create dir '$tardir' to house tarballs"
 }

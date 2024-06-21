@@ -18,7 +18,7 @@ Then, make the tarball in fastest mode.
 
 To install to .local in a home directory:
 
-    tar -C $HOME/.local/ -xpzf OoDC-*-linux-installable-onedir.tar.gz
+    tar -C $HOME/.local/ -xpzf OoDC-*-linux-*-onedir.tar.gz
 
 If rebuilding for any reason, delete the build directory.
 
@@ -43,7 +43,7 @@ To build onefile version, which runs the slowest, but is arguably tidier.
 
     ./make.sh onefile
 
-Other args, clean (remove build dir), dist, build both onefile and onedir.
+Other args, clean (remove build dir), dist builds both onefile and onedir.
 
 Any arg2 will be used as the base name for the tarball. Take care!
 Any arg3 will be used as a destination directory for the tarballs.
@@ -54,7 +54,7 @@ In either of the build modes, it will:
     Activate the venv.
     Use pip inside the venv to install python dependencies and pyinstaller.
     Compile an executable of the project.
-    Make an installable tarball.
+    Make an 'installable' tarball.
 
 One other option, "desktop", will emit the content for a .desktop file.
 This may be of use to anyone wanting to add a shebang line (#!/bin/env python3)
