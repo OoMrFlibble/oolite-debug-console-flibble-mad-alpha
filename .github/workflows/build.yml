@@ -103,6 +103,7 @@ jobs:
       run: |
          pyinstaller `
          --noconfirm `
+         --noconsole `
          --clean `
          --log-level=WARN `
          --onefile `
@@ -170,8 +171,8 @@ jobs:
         path: ./Oolite-Debug-Console-${{ needs.semver.outputs.GITVERSION_SEMVER }}-macos-arm64.tgz
 
   release:
-    needs: [semver,package-linux-x86_64,package-windows,package-macos-arm64]
-#    needs: [semver,package-linux-x86_64,package-windows]
+#    needs: [semver,package-linux-x86_64,package-windows,package-macos-arm64]
+    needs: [semver,package-linux-x86_64,package-windows]
     runs-on: ubuntu-latest
 
     steps:
@@ -212,8 +213,8 @@ jobs:
           artifacts/Oolite-Debug-Console-Linux-x86_64-Installable-onedir/*.tgz
           artifacts/Oolite-Debug-Console-Linux-x86_64-Installable-onefile/*.tgz
           artifacts/Oolite-Debug-Console-Windows/*.zip
-          artifacts/Oolite-Debug-Console-MacOs-x86_64/*.tgz
-          artifacts/Oolite-Debug-Console-MacOs-arm64/*.tgz
+#          artifacts/Oolite-Debug-Console-MacOs-x86_64/*.tgz
+#          artifacts/Oolite-Debug-Console-MacOs-arm64/*.tgz
 
     - name: Remove old releases
       if: github.ref == 'refs/heads/main'
@@ -240,6 +241,6 @@ jobs:
           artifacts/Oolite-Debug-Console-Linux-x86_64-Installable-onedir/*.tgz
           artifacts/Oolite-Debug-Console-Linux-x86_64-Installable-onefile/*.tgz
           artifacts/Oolite-Debug-Console-Windows/*.zip
-          artifacts/Oolite-Debug-Console-MacOs-x86_64/*.tgz
-          artifacts/Oolite-Debug-Console-MacOs-arm64/*.tgz
+#          artifacts/Oolite-Debug-Console-MacOs-x86_64/*.tgz
+#          artifacts/Oolite-Debug-Console-MacOs-arm64/*.tgz
 

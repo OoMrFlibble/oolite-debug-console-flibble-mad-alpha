@@ -19,12 +19,11 @@ __author__ = "Jens Ayton <jens@ayton.se>, Kaks, cag"
 
 from debugGUI._version import __version__
 
-
 import sys, os #Flibble moved this up near the top in case debug on windows without con.
-if sys.platform == 'win32' and sys.executable.endswith('pythonw.exe'):
-	sys.stdout = open(os.devnull, 'w')
+if sys.platform == 'win32' and hasattr(sys, 'frozen'):
 	sys.stderr = open(os.path.join(os.getcwd(),
-		'stderr-' + os.path.basename(sys.argv[0])), 'w')
+		os.path.basename(sys.argv[0]))+'-stderr.txt', 'w')
+	sys.stdout = sys.stderr
 
 # The CLI args will get imported by constants.
 #  so it MUST be above as early as possible to
