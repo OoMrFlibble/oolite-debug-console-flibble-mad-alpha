@@ -6,7 +6,6 @@ from collections import namedtuple
 import pdb, traceback
 
 import tkinter.ttk as ttk
-#from tktooltip import ToolTip #Flibble tooltip test
 
 import debugGUI.appUtils as au
 import debugGUI.comments as cmt

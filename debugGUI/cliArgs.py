@@ -5,8 +5,7 @@
 Parses cli args. Holds defaults for them. Also determines platform/frozen
 """
 
-
-# Do not import anything which will is intended to be later modified by this.
+# Do not import anything which is intended to be set up by values created here
 
 from pathlib import Path
 import re
@@ -105,12 +104,10 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help', '-?'])
   str(g['debug'])), is_flag=True) #seems to like file OR dir.
 
 def cli(base,cpath,lpath,cext,lext,hext,debug):
-  """OoDC (Oodyssey) : the Oolite Debug Console
-  \b
-  Config files and logs will be stored in a location.
-  Let's make that location more predictable.
+  """OoDC (Oodyssey) : the Oolite Debug Console.
 
-  Exits on help/version/error.
+  Command history and log are written to log directory.
+
   """
   global g
 
