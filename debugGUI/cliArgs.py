@@ -110,6 +110,8 @@ def cli(base,cpath,lpath,cext,lext,hext,debug):
 
   """
   global g
+  if debug:
+    g['debug'] = True
 
   #Parse dirs. Use defaults if not in cli args.
   isDir(g['cpath'],'cpath') if cpath is None else isDir(cpath,'cpath') 
@@ -127,8 +129,7 @@ def cli(base,cpath,lpath,cext,lext,hext,debug):
   isExt(cext,'cext')
   isExt(lext,'lext')
   isExt(hext,'hext')
-  if debug:
-    g['debug'] = True
+  if g['debug']:
 #    click.echo(f"cpath: {cpath!r}")
 #    click.echo(f"lpath: {lpath!r}")
 #    click.echo(f"base: {base!r}")
@@ -177,12 +178,14 @@ def isDir(thisdir,key):
         'Invalid path "' + thisdir ), param_hint=["--" + key])
         # May need to create dir. Prompt for it, and add a no-prompt option?
   else:
-    print('Could not find directory "' + thisdir 
-      + ' for option --' + key + '. Attempting to create it.')
+    if g['debug']:
+      print('Could not find directory "' + thisdir 
+        + ' for option --' + key + '. Attempting to create it.')
     try:
       os.makedirs(thisdir, exist_ok = True)
       g[key] = thisdir
-      print("Directory " , thisdir ,  " Created ")
+      if g['debug']:
+        print("Directory " , thisdir ,  " Created ")
     except:
       raise click.BadParameter( (
         'Path "' + thisdir + '" does not exist and could not be created.\n'
