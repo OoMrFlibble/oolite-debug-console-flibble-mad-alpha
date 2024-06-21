@@ -123,23 +123,21 @@ def cli(base,cpath,lpath,cext,lext,hext,debug):
         'Invalid base filename. Only A-Za-z0-9_- are accepted.\n',
         param_hint=["--base"])
 
-  if debug:
-    g['debug'] = True
 
   isExt(cext,'cext')
   isExt(lext,'lext')
   isExt(hext,'hext')
-
-#  click.echo(f"cpath: {cpath!r}")
-#  click.echo(f"lpath: {lpath!r}")
-#  click.echo(f"base: {base!r}")
-#  click.echo(f"debug: {debug!r}")
-#  click.echo(f"cext: {cext!r}")
-#  click.echo(f"lext: {lext!r}")
-#  click.echo(f"hext: {hext!r}")
-  click.echo("Command line parse good. Continuing.")
-
-  print(g)
+  if debug:
+    g['debug'] = True
+#    click.echo(f"cpath: {cpath!r}")
+#    click.echo(f"lpath: {lpath!r}")
+#    click.echo(f"base: {base!r}")
+#    click.echo(f"debug: {debug!r}")
+#    click.echo(f"cext: {cext!r}")
+#    click.echo(f"lext: {lext!r}")
+#    click.echo(f"hext: {hext!r}")
+    click.echo("Command line parse good. Continuing.")
+    print(g)
 
   global shouldquit
   shouldquit=False

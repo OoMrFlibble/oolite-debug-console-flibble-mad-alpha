@@ -19,13 +19,20 @@ __author__ = "Jens Ayton <jens@ayton.se>, Kaks, cag"
 
 from debugGUI._version import __version__
 
+
+import sys, os #Flibble moved this up near the top in case debug on windows without con.
+if sys.platform == 'win32' and sys.executable.endswith('pythonw.exe'):
+	sys.stdout = open(os.devnull, 'w')
+	sys.stderr = open(os.path.join(os.getcwd(),
+		'stderr-' + os.path.basename(sys.argv[0])), 'w')
+
 # The CLI args will get imported by constants.
 #  so it MUST be above as early as possible to
 #  avoid being imported elsewhere first.
 # Also this avoids pointless imports if args are nuts.
 import debugGUI.constants as con
 
-import sys, os, time, logging, errno, gc
+import time, logging, errno, gc
 
 #As we have parsed the command line, and dragged in constants, we know the OS
 # and if not frozen, knowing the path will allow us to find our icons.
@@ -69,12 +76,6 @@ import debugGUI.stringUtils as su
 import debugGUI.widgets as wg
 
 
-## module variables ###########################################################
-
-if con.IS_WINDOWS_PC and sys.executable.endswith('pythonw.exe'):
-	sys.stdout = open(os.devnull, 'w')
-	sys.stderr = open(os.path.join(os.getcwd(),
-		'stderr-' + os.path.basename(sys.argv[0])), 'w')
 
 # network
 _consoleHandler = None

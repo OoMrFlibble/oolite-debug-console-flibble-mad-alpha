@@ -1,6 +1,8 @@
 Alias examples:
 
-These are as stored in the config file. Note, OoDC will need to be restarted to show tooltips for existing buttons.
+Written here as they stored in the config file.
+
+BUG: OoDC will need to be restarted to show tooltips for existing buttons. Tooltips for new buttons work when created.
 
 The name of the alias is used to sort the buttons (and the config file). If defining a function, the function name will be shown on the button.
 
