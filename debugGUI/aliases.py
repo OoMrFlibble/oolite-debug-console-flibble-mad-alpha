@@ -2016,12 +2016,12 @@ def _makeAliasMenuButton(alias):		# build alias menu button
 		# Might prefer to constrain this to only allowing "/* tooltip: $x /*
 		# Where only the $x portion can be multiline.
 		ttip=""
-		match=re.search(r'.*/\*.+tooltip: (.+)\*/.*', obj.defn, flags=re.S|re.M)
+		match=re.search(r'.*/\*.* tooltip: (.+)\*/.*', obj.defn, flags=re.S|re.M)
 		if match:
 			ttip=str(match.group(1))
 		else:# If no substitution, seek // one line comment
 			# Format exactly "^// tooltip: TOOLTIP STRING$" one-line.
-			match=re.search(r'^.*// tooltip: (.+)$.*' , obj.defn, flags=re.M)
+			match=re.search(r'^.*//.* tooltip: (.+)$.*' , obj.defn, flags=re.M)
 			if match:
 				ttip=str(match.group(1))
 		if len(ttip) > 0:
