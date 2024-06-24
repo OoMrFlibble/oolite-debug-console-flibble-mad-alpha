@@ -110,7 +110,7 @@ jobs:
          --name OoDC `
          --add-binary "images\OoJSC.ico:." `
          --add-binary "images\oojsc.xbm:." `
-         --icon=OoJSC.ico `
+         --icon=images\OoJSC.ico `
          OoDC.py
 
     # Flibble ripped out the --noconsole option to pyinstaller to be able to get stdout
@@ -158,7 +158,7 @@ jobs:
 #        --add-binary "images/oojsc.xbm:." \
 #        --add-binary "images/OoJSC.ico:." \
 #        --name OoDC \
-#        --icon OoJSC.ico \
+#        --icon images/OoJSC.ico \
 #        OoDC.py
 #
 #    - name: create archive
