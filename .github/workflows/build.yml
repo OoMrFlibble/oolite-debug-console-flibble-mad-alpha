@@ -108,8 +108,8 @@ jobs:
          --log-level=WARN `
          --onefile `
          --name OoDC `
-         --add-binary "OoJSC.ico:." `
-         --add-binary "oojsc.xbm:." `
+         --add-binary "images\OoJSC.ico:." `
+         --add-binary "images\oojsc.xbm:." `
          --icon=OoJSC.ico `
          OoDC.py
 
@@ -155,8 +155,8 @@ jobs:
 #        pyinstaller \
 #        --onefile \
 #        --log-level=WARN \
-#        --add-binary "oojsc.xbm:." \
-#        --add-binary "OoJSC.ico:." \
+#        --add-binary "images/oojsc.xbm:." \
+#        --add-binary "images/OoJSC.ico:." \
 #        --name OoDC \
 #        --icon OoJSC.ico \
 #        OoDC.py

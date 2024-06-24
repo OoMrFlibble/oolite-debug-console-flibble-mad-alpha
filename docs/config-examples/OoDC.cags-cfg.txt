@@ -112,7 +112,7 @@ FindTreatment = Token              // one of 'Token', 'Word', 'Substring', 'Rege
  * NB: if entering one manually, use <name> := ...
  *     this make parsing much easier, as := is not valid in JavaScript
  */
-_clkOff := NM:(function cloakOff() { // tooltip: turn Constrictor's clock off
+_clkOff := NM:(function cloakOff() { // tooltip: turn Constrictor's cloak off
    var ship = console.script._constrictorShip_;
     if (!ship) {
         log("cloakOff, !ship => no Constrictor");

@@ -76,7 +76,7 @@ commonparts(){
   mkdir -p share/applications &&
    mkdir -p share/icons/hicolor/256x256/apps &&
     echo "$desktop" > share/applications/OoDC.desktop &&
-     cp ../../../../OoJSC256x256.png share/icons/hicolor/256x256/apps/$basename-icon.png ||
+     cp ../../../../images/OoJSC256x256.png share/icons/hicolor/256x256/apps/$basename-icon.png ||
  q "commonparts : failed to make output tree"
 }
 
@@ -90,8 +90,8 @@ mkdir -p "$onefilebase" || q "couldn't make directory $onefilebase"
 cd $onefilebase && commonparts && cd - || q "commonparts fail"
 #prep &&
 pyinstaller --name "$basename" --onefile "${relpath}$inscript" \
- --add-binary "${relpath}oojsc.xbm:." --add-binary "${relpath}OoJSC.ico:." \
- --add-binary "${relpath}OoJSC256x256.png:." &&
+ --add-binary "${relpath}/images/oojsc.xbm:." --add-binary "${relpath}/images/OoJSC.ico:." \
+ --add-binary "${relpath}/images/OoJSC256x256.png:." &&
 mv "dist/$basename" "${onefilebase}"/bin &&
 tarname="$tarbase-onefile.tgz"
 tar -C "$builddir/$onefilebase" --numeric-owner --dereference \
@@ -128,8 +128,8 @@ mkdir -p "$onedirbase/lib" || q "couldn't make directory $onefilebase"
 cd $onedirbase && commonparts && cd - || q "commonparts fail"
 #prep &&
 pyinstaller --name "$basename" --onedir "${relpath}$inscript" \
- --add-binary "${relpath}oojsc.xbm:." --add-binary "${relpath}OoJSC.ico:." \
- --add-binary "${relpath}OoJSC256x256.png:." &&
+ --add-binary "${relpath}/images/oojsc.xbm:." --add-binary "${relpath}/images/OoJSC.ico:." \
+ --add-binary "${relpath}/images/OoJSC256x256.png:." &&
 mv "dist/$basename" $onedirbase/lib &&
 cd $onedirbase/bin && ln -s ../lib/$basename/$basename && cd -
 tarname="$tarbase-onedir.tgz"

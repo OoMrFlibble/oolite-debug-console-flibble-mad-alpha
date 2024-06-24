@@ -262,7 +262,7 @@ class AppWindow(ttk.Frame):
 			if meipass:
 				iconPath = os.path.join(meipass, iconFile)
 		else:
-			iconPath = os.path.join(con.SCRIPTPATH, iconFile)
+			iconPath = os.path.join(con.SCRIPTPATH, "images", iconFile)
 
 
 		# Under Windows, the DEFAULT parameter can be used to set the icon
@@ -274,7 +274,7 @@ class AppWindow(ttk.Frame):
 				top.iconbitmap(default=iconPath)
 			except:
 				try:
-					top.iconbitmap(default=os.path.join(os.path.dirname(sys.argv[0]), iconFile))
+					top.iconbitmap(default=os.path.join(os.path.dirname(sys.argv[0]), "images", iconFile))
 				except:
 					try:
 						top.iconbitmap(default='@oojsc.xbm')
@@ -289,7 +289,7 @@ class AppWindow(ttk.Frame):
 					top.iconbitmap(iconPath)
 				except:
 					try:
-						top.iconbitmap(os.path.join(os.path.dirname(sys.argv[0]), iconFile))
+						top.iconbitmap(os.path.join(os.path.dirname(sys.argv[0]), "images", iconFile))
 					except:
 						try:
 							top.iconbitmap('@oojsc.xbm')
