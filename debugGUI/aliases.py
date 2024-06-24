@@ -2010,18 +2010,14 @@ def _makeAliasMenuButton(alias):		# build alias menu button
 	if obj:
 		# aliasButtonFrames is also in_ gv.menubar
 		gv.aliasMenuButtons[alias] = obj.createBtn(gv.menubar)
-		# Try to get tooltip from between /* ... */ style comments
-		#  Not caring about nested comments. Allowing multi-line tooltips.
-		#  Not removing any '*'
 		ttip=""
-		match=re.search(r'(?:/\*.*[\n ]|/\*)tooltip:(.+)\*/', obj.defn, flags=re.S|re.M)
+		match=re.search(r'(?i)(?:/\*|/\*.*\s+)tooltip:\s*(.+?)\s*\*/', obj.defn, flags=re.S|re.M)
 		if match:
 			ttip=str(match.group(1))
 		else:# If no substitution, seek // one line comment
-			match=re.search(r'(?://.* |//)tooltip:(.+)' , obj.defn, flags=re.M)
+			match=re.search(r'(?i)//(?:.*\s+|\s*)tooltip:\s*(.+?)\s*$' , obj.defn, flags=re.M)
 			if match:
 				ttip=str(match.group(1))
-		ttip=ttip.strip()
 		if len(ttip) > 0:
 			wg.ToolTip(obj.button, ttip,
 				gv.CurrentOptions['Settings'].get('FindToolTipDelayMS', 0),

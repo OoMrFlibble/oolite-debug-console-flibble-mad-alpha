@@ -1,0 +1,62 @@
+Alias tooltips:
+
+Alias definitions can include a tooltip for if a button is allocatd. The tooltip is defined in a Javascript comment. The comment can be before, inside, or after any functions.
+
+Both // .. and /* .. */ style comments can be used.
+Not catering for nested comments.
+Multi-line tooltips can be used in multi-line comments.
+
+Only one tooltip per alias will be used.
+/* */ is searched before //, so will take priority.
+
+Case insensitive. TooLtiP: is fine.
+Everything after tooltip: is tooltip string. This means that the tooltip definition must be the last thing in the comment if it is not the only thing. You can always have another comment right?
+
+'tooltip:' may be exactly at start of comment, like:
+   //tooltip:blah
+
+or must be preceded by one or more space/tab or newline.
+ This allows any comment before like:
+   // yay, here's a tooltip:blah
+ Which would give a tooltip string of "blah"
+
+ It also prevents things like:
+   // whoah dude, what's a stooltip: nope!
+ No tooltip here!
+
+Single line comment examples.
+
+//tooltip: Please do not press this button.
+// Did we listen to the last alias? TOOLTIP:Please do not press this button again.
+
+Multiline comment examples.
+
+/*tooltip:
+Test tools
+can be
+on multiple lines
+*/
+
+The above yields this (quotes added for clarity)
+"Test tools
+can be
+on multiple lines"
+
+A more complex example.
+ /*
+  * If we must border with asterisks, then know they are
+  * not seen as part of the comment delimiters, so this:-
+  *tooltip: test
+  * will be ingnored
+  * and any asterisks in the tooltip text will not be removed.
+  * tooltip: This is a tooltip
+it continues on the next line
+and ends at the end of the comment
+
+*/
+
+Will yield:
+"This is a tooltip
+it continues on the next line
+and ends at the end of the comment"
+
