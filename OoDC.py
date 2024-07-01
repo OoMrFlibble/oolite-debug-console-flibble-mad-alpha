@@ -17,8 +17,6 @@ A gui implementation of the Oolite JavaScript debug console interface.
 
 __author__ = "Jens Ayton <jens@ayton.se>, Kaks, cag"
 
-from debugGUI._version import __version__
-
 import sys, os #Flibble moved this up near the top in case debug on windows without con.
 if sys.platform == 'win32' and hasattr(sys, 'frozen'):
 	sys.stderr = open(os.path.join(os.getcwd(),
@@ -1336,6 +1334,7 @@ def _showAbortMsg(title=None):
 
 def _startApp():
 	try:
+		gv.app.colorPrint('OoDC version ' + con.VERSION)
 		settings = gv.CurrentOptions['Settings']
 		server = settings.get('ServerAddress')
 		port = settings.get('Port') or connectPort
@@ -1343,7 +1342,7 @@ def _startApp():
 #flibble		au.setAppTitle(msg)
 #flibble		msg = f'Listening on {msg} ...'
 		msg=(server + gv.listeningPortList) #flibble showing full list of listeners
-		msg = f'Listening on {msg} ...'
+		msg = f'\nListening on {msg} ...'
 		gv.app.colorPrint(msg, emphasisRanges=[13, len(msg) - 13])
 		msg = '\nUse Up and Down arrows to scroll through the command history.'
 		gv.app.colorPrint(msg, emphasisRanges=[4,2, 11,4])

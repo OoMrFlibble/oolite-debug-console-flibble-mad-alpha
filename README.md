@@ -21,9 +21,7 @@ The main program is OoDC.py
 
 To run from source on Ubuntu etc. this might be the incantation you require.
 ```
-apt install python3-tk
-python3 -m pip install -U --user click
-python3 -m pip install -U --user twisted
+apt install python3-tk python3-click python3-twisted
 python3 OoDC.py -h
 ```
 <p width="100%" align="center">$\textsf{\Large{\color{red}Oo\color{white}lite \color{red}D\color{white}ebug \color{red}C\color{white}onsole}}$</p>

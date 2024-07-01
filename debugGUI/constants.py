@@ -1,6 +1,7 @@
 #
 # (c) 2021 cag CC BY-NC-SA 4.0
 #
+
 import sys, os
 from collections import OrderedDict
 import debugGUI.cliArgs as dca
@@ -9,6 +10,9 @@ FROZEN = dca.p['f']
 IS_WINDOWS_PC =  dca.p['w']
 IS_LINUX_PC =  dca.p['l']
 IS_MACOS_PC =  dca.p['m']
+
+from debugGUI._version import __version__
+VERSION=dca.__version__
 
 # Tkinter
 MINIMUM_WIDTH = 600 #MrFlibble set 600x400 to allow for old netbooks.
@@ -39,7 +43,8 @@ SESSION_SIGNATURE = '$debugConsoleSessionStarted'
 # app messages
 DEBUGGER_TITLE = 'Oolite - Javascript Debug Console ({})'.format(
 		'executable' if FROZEN else 'Python3')
-CONNECTMSG = "Please (re)start Oolite in order to connect."
+DEBUGGER_TITLE = (DEBUGGER_TITLE  + " v" + VERSION)
+CONNECTMSG = "To connect, either (re)start Oolite, or pause in-flight and press 'c'."
 
 # files
 #BASE_FNAME = 'OoDC'
